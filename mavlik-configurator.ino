@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_PCD8544.h>
-#include <MavlinkModem.h>
+#include "MavlinkModem.h"
 
 // LCD constants
 #define PIN_SCE   6
@@ -22,11 +22,6 @@
 #define KEYPAD_ROWS   3
 #define KEYPAD_COLS   3
 #define PUSH_TIMEOUT  20
-
-// Mavlink Modem constants
-
-// Supported bound rate 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600 and 115200
-#define BOUND_RATE 57600
 
 #define ACTION_UP      2
 #define ACTION_DOWN    8
@@ -58,11 +53,10 @@ long pushedTime = 0;
 
 Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
 
-unsigned int usedTime = 0;
+MavlinkModem modem(&Serial);
 
 bool isInit = false;
 
-String initResponse = "";
 String atiResponse = "";
 String ati2Response = "";
 String ati3Response = "";
@@ -73,7 +67,6 @@ String ati7Response = "";
 
 String ats0Response = "";
 
-int initTime = 0;
 int atiTime = 0;
 int ati2Time = 0;
 int ati3Time = 0;
@@ -93,7 +86,7 @@ boolean isFirstRun = true;
 
 void setup() {
   initDisplay();
-  initSerial();
+  modem.init(BOUND_RATE_57600);
   initKeypad();
 }
 
@@ -161,18 +154,14 @@ void showScrModemInfo() {
     return;
   }
 
-  atiResponse = "";
-  if (initConfigModem()) {
-    cmdATI();
-    cmdATO();
-  }
+  String response = modem.ati();
 
   display.clearDisplay();
   display.setTextSize(1);
   display.setCursor(0, 0);
   display.setTextColor(BLACK);
   display.println("Radio ver:");
-  display.println(atiResponse);
+  display.println(response);
   display.display();
 }
 
@@ -223,22 +212,6 @@ void initDisplay() {
   delay(2000);
 }
 
-void initSerial() {
-  Serial.begin(BOUND_RATE);
-}
-
-bool initConfigModem() {
-  initResponse = runCmd("+++", 1200, true);
-  initTime = usedTime;
-  return initResponse.equals("OK");
-}
-
-void cmdATI() {
-  atiResponse = runCmd("ATI\r", 30, false);
-  atiResponse.replace("ATI\r\n", "");
-  atiTime = usedTime;
-}
-
 void cmdATI2() {
   ati2Response = runCmd("ATI2\r", 30, false);
   ati2Response.replace("ATI2\r\n", "");
@@ -287,34 +260,3 @@ void cmdATS() {
   }
 }
 
-void cmdATO() {
-  runCmd("ATO\r", 30, false);
-}
-
-String runCmd(String cmd, int timeout, bool checkCR) {
-  String response = "";
-  Serial.print(cmd);
-
-  unsigned long firstReadTime = millis();
-  unsigned long lastReadTime = 0;
-  while (true) {
-    if (Serial.available() > 0) {
-      char symbol = Serial.read();
-      if (checkCR && symbol == '\r') {
-        usedTime = millis() - firstReadTime;
-        break;
-      } else {
-        response += String(symbol);
-        lastReadTime = millis();
-      }
-    } else if ((millis() - firstReadTime) > timeout) {
-      if (checkCR) {
-        usedTime = millis() - firstReadTime;
-      } else {
-        usedTime = lastReadTime - firstReadTime;
-      }
-      break;
-    }
-  }
-  return response;
-}
