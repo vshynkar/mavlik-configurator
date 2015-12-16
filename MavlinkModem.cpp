@@ -98,6 +98,18 @@ int MavlinkModem::ats(int number) {
   return value.toInt();
 }
 
+void MavlinkModem::atsAll(int* rows) {
+  String cmd;
+  String value;
+  for (int i = 0; i < 16; i++) {
+    cmd = "ATS" + String(i) + "?\r";
+    value = runCmd(cmd, 30, false);
+    value.replace(cmd, "");
+    value.replace("\r\n", "");
+    rows[i] = value.toInt();
+  }
+}
+
 String MavlinkModem::runCmd(String cmd, int timeout, bool checkCR) {
   String response = "";
   serial->print(cmd);
