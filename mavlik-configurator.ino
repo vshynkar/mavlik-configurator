@@ -1,6 +1,7 @@
+#include "glcdfont.c"
 #include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_PCD8544.h>
+#include "Adafruit_GFX.h"
+#include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
 #include "KeypadMatrix.h"
 
@@ -58,7 +59,8 @@ void loop() {
 }
 
 void showMenuMain(byte button) {
-  String items[] = { "  Modem Info ",  "  Modem Info "};
+  //  String items[] = { "  Modem Info ",  "  Modem Info "};
+  String items[] = { "  \xEF\xF1\xE4\xE5\xEF Info ",  "  Modem Info "};
   int itemCount = 2;
   currentMenu = MENU_MAIN;
 
