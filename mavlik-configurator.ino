@@ -55,30 +55,6 @@ Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE,
 
 MavlinkModem modem(&Serial);
 
-bool isInit = false;
-
-String atiResponse = "";
-String ati2Response = "";
-String ati3Response = "";
-String ati4Response = "";
-String ati5Response = "";
-String ati6Response = "";
-String ati7Response = "";
-
-String ats0Response = "";
-
-int atiTime = 0;
-int ati2Time = 0;
-int ati3Time = 0;
-int ati4Time = 0;
-int ati5Time = 0;
-int ati6Time = 0;
-int ati7Time = 0;
-
-int ats0Time = 0;
-
-int ats[16];
-
 int menu0Poss = 0;
 int currentMenu = MENU_MAIN;
 
@@ -212,51 +188,4 @@ void initDisplay() {
   delay(2000);
 }
 
-void cmdATI2() {
-  ati2Response = runCmd("ATI2\r", 30, false);
-  ati2Response.replace("ATI2\r\n", "");
-  ati2Time = usedTime;
-}
-
-void cmdATI3() {
-  ati3Response = runCmd("ATI3\r", 30, false);
-  ati3Response.replace("ATI3\r\n", "");
-  ati3Time = usedTime;
-}
-
-void cmdATI4() {
-  ati4Response = runCmd("ATI4\r", 30, false);
-  ati4Response.replace("ATI4\r\n", "");
-  ati4Time = usedTime;
-}
-
-void cmdATI5() {
-  ati5Response = runCmd("ATI5\r", 80, false);
-  ati5Response.replace("ATI5\r\n", "");
-  ati5Time = usedTime;
-}
-
-void cmdATI6() {
-  ati6Response = runCmd("ATI6\r", 30, false);
-  ati6Response.replace("ATI6\r\n", "");
-  ati6Time = usedTime;
-}
-
-void cmdATI7() {
-  ati7Response = runCmd("ATI7\r", 30, false);
-  ati7Response.replace("ATI7\r\n", "");
-  ati7Time = usedTime;
-}
-
-void cmdATS() {
-  String value = "";
-  String cmd = "";
-  for (int i = 0; i < 16; i++) {
-    cmd = "ATS" + String(i) + "?\r";
-    value = runCmd(cmd, 30, false);
-    value.replace(cmd, "");
-    value.replace("\r\n", "");
-    ats[i] = value.toInt();
-  }
-}
 

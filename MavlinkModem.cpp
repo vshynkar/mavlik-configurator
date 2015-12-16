@@ -23,10 +23,79 @@ void MavlinkModem::stopCmdMode() {
   runCmd("ATO\r", 30, false);
 }
 
+// show radio version
 String MavlinkModem::ati() {
-  String response = runCmd("ATI\r", 30, false);
-  response.replace("ATI\r\n", "");
+  String response = "";
+  if (startCmdMode()) {
+    response = runCmd("ATI\r", ATI_DELAY, false);
+    response.replace("ATI\r\n", "");
+    stopCmdMode();
+  }
   return response;
+}
+
+// show board type
+String MavlinkModem::ati2() {
+  String response = "";
+  if (startCmdMode()) {
+    response = runCmd("ATI2\r", ATI_DELAY, false);
+    response.replace("ATI2\r\n", "");
+    stopCmdMode();
+  }
+  return response;
+}
+
+// show board frequency
+String MavlinkModem::ati3() {
+  String response = "";
+  if (startCmdMode()) {
+    response = runCmd("ATI3\r", ATI_DELAY, false);
+    response.replace("ATI3\r\n", "");
+    stopCmdMode();
+  }
+  return response;
+}
+
+// show board version
+String MavlinkModem::ati4() {
+  String response = "";
+  if (startCmdMode()) {
+    response = runCmd("ATI4\r", ATI_DELAY, false);
+    response.replace("ATI4\r\n", "");
+    stopCmdMode();
+  }
+  return response;
+}
+
+// display TDM timing report
+String MavlinkModem::ati6() {
+  String response = "";
+  if (startCmdMode()) {
+    response = runCmd("ATI6\r", ATI_DELAY, false);
+    response.replace("ATI6\r\n", "");
+    stopCmdMode();
+  }
+  return response;
+}
+
+// display RSSI signal report
+String MavlinkModem::ati7() {
+  String response = "";
+  if (startCmdMode()) {
+    response = runCmd("ATI7\r", ATI_DELAY, false);
+    response.replace("ATI7\r\n", "");
+    stopCmdMode();
+  }
+  return response;
+}
+
+// ATSn? – display radio parameter number ‘n’
+int MavlinkModem::ats(int number) {
+  String cmd = "ATS" + String(number) + "?\r";
+  String value = runCmd(cmd, 30, false);
+  value.replace(cmd, "");
+  value.replace("\r\n", "");
+  return value.toInt();
 }
 
 String MavlinkModem::runCmd(String cmd, int timeout, bool checkCR) {
@@ -60,4 +129,11 @@ String MavlinkModem::runCmd(String cmd, int timeout, bool checkCR) {
 unsigned int MavlinkModem::getOperationUsedTime() {
   return operationUsedTime;
 }
+
+
+//void cmdATI5() {
+//  ati5Response = runCmd("ATI5\r", 80, false);
+//  ati5Response.replace("ATI5\r\n", "");
+//  ati5Time = usedTime;
+//}
 
