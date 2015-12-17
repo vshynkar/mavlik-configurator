@@ -4,6 +4,7 @@
 #include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
 #include "KeypadMatrix.h"
+#include "MenuManager.h"
 
 // LCD constants
 #define PIN_SCE   6
@@ -12,7 +13,7 @@
 #define PIN_MOSI  3
 #define PIN_SCLK  2
 
-#define MENU_MAIN           100
+//#define MENU_MAIN           100
 #define SCR_MENU_INFO       101
 
 // Hardware SPI (faster, but must use certain hardware pins):
@@ -60,8 +61,8 @@ void loop() {
 
 void showMenuMain(byte button) {
   //  String items[] = { "  Modem Info ",  "  Modem Info "};
-  String items[] = { "  \xEF\xF1\xE4\xE5\xEF Info ",  "  Modem Info "};
-  int itemCount = 2;
+//  String items[] = { "  \xEF\xF1\xE4\xE5\xEF Info ",  "  Modem Info "};
+//  int itemCount = 2;
   currentMenu = MENU_MAIN;
 
   if (button == BUTTON_ENTER) {
@@ -73,6 +74,7 @@ void showMenuMain(byte button) {
     }
   }
 
+  int itemCount = sizeof(menuMain) / LINE_LENGTH;
   menu0Poss = menuCursor(menu0Poss, itemCount, button);
 
   display.clearDisplay();
@@ -84,7 +86,9 @@ void showMenuMain(byte button) {
     if (i == menu0Poss) {
       display.setTextColor(WHITE, BLACK);
     }
-    display.println(items[i]);
+    for (int j = 0; j < 14; j++) {
+      display.print(menuMain[i][j]);
+    }
     if (i == menu0Poss) {
       display.setTextColor(BLACK);
     }
