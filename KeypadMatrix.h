@@ -22,7 +22,7 @@
 
 #define KEYPAD_ROWS      3
 #define KEYPAD_COLS      3
-#define PUSH_TIMEOUT     20
+#define PUSH_TIMEOUT     200
 
 
 class KeypadMatrix {

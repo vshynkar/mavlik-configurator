@@ -26,9 +26,6 @@ KeypadMatrix keypad(12, 11, 10, 9, 8, 7);
 MenuHandler menuHandler = MenuHandler(&display);
 
 int menu0Poss = 0;
-int currentMenu = MENU_MAIN;
-
-boolean isFirstRun = true;
 
 void setup() {
   initDisplay();
@@ -39,92 +36,31 @@ void setup() {
 
 void loop() {
   menuHandler.start();
-  if (isFirstRun) {
-    isFirstRun = false;
-    showMenuMain(BUTTON_NOP);
-  }
-
   byte button = keypad.read();
-  if (button == BUTTON_NOP) {
-    delay(10);
-    return;
-  }
-  switch (currentMenu) {
-    case MENU_MAIN: {
-        showMenuMain(button);
-        break;
-      }
-    case SCR_MENU_INFO: {
-        showScrModemInfo(button);
-        break;
-      }
+  if (button != BUTTON_NOP) {
+    menuHandler.pressedKey(button);
+  } else {
+    delay(20);
   }
 }
-
-void showMenuMain(byte button) {
-  //  String items[] = { "  Modem Info ",  "  Modem Info "};
-//  String items[] = { "  \xEF\xF1\xE4\xE5\xEF Info ",  "  Modem Info "};
-//  int itemCount = 2;
-  currentMenu = MENU_MAIN;
-
-  if (button == BUTTON_ENTER) {
-    switch (menu0Poss) {
-      case 0: {
-          showScrModemInfo(BUTTON_NOP);
-          return;
-        }
-    }
-  }
-
-  int itemCount = sizeof(menuMain) / LINE_LENGTH;
-  menu0Poss = menuCursor(menu0Poss, itemCount, button);
-
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setCursor(0, 0);
-  display.setTextColor(BLACK);
-
-  for (int i = 0; i < itemCount; i++) {
-    if (i == menu0Poss) {
-      display.setTextColor(WHITE, BLACK);
-    }
-    for (int j = 0; j < 14; j++) {
-      display.print(menuMain[i][j]);
-    }
-    if (i == menu0Poss) {
-      display.setTextColor(BLACK);
-    }
-  }
-  display.display();
-}
-
-void showScrModemInfo(byte button) {
-  currentMenu = SCR_MENU_INFO;
-  if (button == BUTTON_ESC) {
-    showMenuMain(BUTTON_NOP);
-    return;
-  }
-
-  String response = modem.ati();
-
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setCursor(0, 0);
-  display.setTextColor(BLACK);
-  display.println("Radio ver:");
-  display.println(response);
-  display.display();
-}
-
-int menuCursor(int currentValue, int itemNumber, byte action) {
-  int result = currentValue;
-  if (currentValue < (itemNumber - 1) && action == BUTTON_DOWN) {
-    result++;
-  } else if (currentValue > 0 && action == BUTTON_UP) {
-    result--;
-  }
-  return result;
-}
+//
+//void showScrModemInfo(byte button) {
+//  currentMenu = SCR_MENU_INFO;
+//  if (button == BUTTON_ESC) {
+//    showMenuMain(BUTTON_NOP);
+//    return;
+//  }
+//
+//  String response = modem.ati();
+//
+//  display.clearDisplay();
+//  display.setTextSize(1);
+//  display.setCursor(0, 0);
+//  display.setTextColor(BLACK);
+//  display.println("Radio ver:");
+//  display.println(response);
+//  display.display();
+//}
 
 void initDisplay() {
   display.begin();
