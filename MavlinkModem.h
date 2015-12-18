@@ -14,27 +14,27 @@ class MavlinkModem {
   public:
     MavlinkModem(HardwareSerial* s);
     void init(int boundRate);
-    unsigned int getOperationUsedTime();
+    unsigned int getOperationUsedTime(void);
 
-    String ati();
-    String ati2();
-    String ati3();
-    String ati4();
-    String ati6();
-    String ati7();
+    String ati(void);
+    String ati2(void);
+    String ati3(void);
+    String ati4(void);
+    String ati6(void);
+    String ati7(void);
     int ats(int number);
     void atsAll(int* rows);
     void ats(int number, int value);
-    void reboot();
-    void flushToEeprom();
-    void resetToDefault();
+    void reboot(void);
+    void flushToEeprom(void);
+    void resetToDefault(void);
 
   private:
     HardwareSerial* serial;
     unsigned int operationUsedTime;
     
-    bool startCmdMode();
-    void stopCmdMode();
+    bool startCmdMode(void);
+    void stopCmdMode(void);
     String runCmd(String cmd, int timeout, bool checkCR);
 };
 

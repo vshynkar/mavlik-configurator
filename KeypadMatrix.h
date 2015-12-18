@@ -28,8 +28,8 @@
 class KeypadMatrix {
   public:
     KeypadMatrix(byte in1, byte in2, byte in3, byte out1, byte out2, byte out3);
-    void init();
-    byte read();
+    void init(void);
+    byte read(void);
 
   private:
     const byte keypad[KEYPAD_ROWS][KEYPAD_COLS] {

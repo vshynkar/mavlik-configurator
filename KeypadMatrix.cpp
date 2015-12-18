@@ -9,7 +9,7 @@ KeypadMatrix::KeypadMatrix(byte in1, byte in2, byte in3, byte out1, byte out2, b
   pinOut[2] = out3;
 }
 
-void KeypadMatrix::init() {
+void KeypadMatrix::init(void) {
   for (int i = 0; i < KEYPAD_COLS; i++) {
     pinMode(pinOut[i], OUTPUT); // инициализируем порты на выход (подают нули на столбцы)
   }
@@ -20,7 +20,7 @@ void KeypadMatrix::init() {
   }
 }
 
-byte KeypadMatrix::read() { // создаем функцию для чтения кнопок
+byte KeypadMatrix::read(void) { // создаем функцию для чтения кнопок
   byte button = BUTTON_NOP;
   for (int i = 1; i <= KEYPAD_COLS; i++) { // цикл, передающий 0 по всем столбцам
     digitalWrite(pinOut[i - 1], LOW); // если i меньше 3 , то отправляем 0 на ножку

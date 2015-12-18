@@ -1,7 +1,4 @@
 #include <stdlib.h>
-//#include <avr/io.h>
-//#include <stdint.h>
-//#include <avr/common.h>
 #include <Arduino.h>
 #include <HardwareSerial.h>
 #include "MavlinkModem.h"
@@ -14,17 +11,17 @@ void MavlinkModem::init(int boundRate) {
   serial->begin(boundRate);
 }
 
-bool MavlinkModem::startCmdMode() {
+bool MavlinkModem::startCmdMode(void) {
   String response = runCmd("+++", 1200, true);
   return response.equals("OK");
 }
 
-void MavlinkModem::stopCmdMode() {
+void MavlinkModem::stopCmdMode(void) {
   runCmd("ATO\r", 30, false);
 }
 
 // show radio version
-String MavlinkModem::ati() {
+String MavlinkModem::ati(void) {
   String response = "";
   if (startCmdMode()) {
     response = runCmd("ATI\r", ATI_DELAY, false);
@@ -35,7 +32,7 @@ String MavlinkModem::ati() {
 }
 
 // show board type
-String MavlinkModem::ati2() {
+String MavlinkModem::ati2(void) {
   String response = "";
   if (startCmdMode()) {
     response = runCmd("ATI2\r", ATI_DELAY, false);
@@ -46,7 +43,7 @@ String MavlinkModem::ati2() {
 }
 
 // show board frequency
-String MavlinkModem::ati3() {
+String MavlinkModem::ati3(void) {
   String response = "";
   if (startCmdMode()) {
     response = runCmd("ATI3\r", ATI_DELAY, false);
@@ -57,7 +54,7 @@ String MavlinkModem::ati3() {
 }
 
 // show board version
-String MavlinkModem::ati4() {
+String MavlinkModem::ati4(void) {
   String response = "";
   if (startCmdMode()) {
     response = runCmd("ATI4\r", ATI_DELAY, false);
@@ -68,7 +65,7 @@ String MavlinkModem::ati4() {
 }
 
 // display TDM timing report
-String MavlinkModem::ati6() {
+String MavlinkModem::ati6(void) {
   String response = "";
   if (startCmdMode()) {
     response = runCmd("ATI6\r", ATI_DELAY, false);
@@ -79,7 +76,7 @@ String MavlinkModem::ati6() {
 }
 
 // display RSSI signal report
-String MavlinkModem::ati7() {
+String MavlinkModem::ati7(void) {
   String response = "";
   if (startCmdMode()) {
     response = runCmd("ATI7\r", ATI_DELAY, false);
@@ -138,7 +135,7 @@ String MavlinkModem::runCmd(String cmd, int timeout, bool checkCR) {
   return response;
 }
 
-unsigned int MavlinkModem::getOperationUsedTime() {
+unsigned int MavlinkModem::getOperationUsedTime(void) {
   return operationUsedTime;
 }
 

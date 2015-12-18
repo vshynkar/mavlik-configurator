@@ -4,7 +4,7 @@
 #include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
 #include "KeypadMatrix.h"
-#include "MenuManager.h"
+#include "MenuHandler.h"
 
 // LCD constants
 #define PIN_SCE   6
@@ -13,7 +13,6 @@
 #define PIN_MOSI  3
 #define PIN_SCLK  2
 
-//#define MENU_MAIN           100
 #define SCR_MENU_INFO       101
 
 // Hardware SPI (faster, but must use certain hardware pins):
@@ -24,6 +23,7 @@
 Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
 MavlinkModem modem(&Serial);
 KeypadMatrix keypad(12, 11, 10, 9, 8, 7);
+MenuHandler menuHandler = MenuHandler(&display);
 
 int menu0Poss = 0;
 int currentMenu = MENU_MAIN;
@@ -34,9 +34,11 @@ void setup() {
   initDisplay();
   modem.init(BOUND_RATE_57600);
   keypad.init();
+  menuHandler.init();
 }
 
 void loop() {
+  menuHandler.start();
   if (isFirstRun) {
     isFirstRun = false;
     showMenuMain(BUTTON_NOP);
