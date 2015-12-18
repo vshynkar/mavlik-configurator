@@ -43,24 +43,6 @@ void loop() {
     delay(20);
   }
 }
-//
-//void showScrModemInfo(byte button) {
-//  currentMenu = SCR_MENU_INFO;
-//  if (button == BUTTON_ESC) {
-//    showMenuMain(BUTTON_NOP);
-//    return;
-//  }
-//
-//  String response = modem.ati();
-//
-//  display.clearDisplay();
-//  display.setTextSize(1);
-//  display.setCursor(0, 0);
-//  display.setTextColor(BLACK);
-//  display.println("Radio ver:");
-//  display.println(response);
-//  display.display();
-//}
 
 void initDisplay() {
   display.begin();

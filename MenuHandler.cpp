@@ -29,6 +29,11 @@ void MenuHandler::pressedKey(byte button) {
         }
         break;
       }
+    case BUTTON_ESC: {
+        currentMenuCode = MENU_MAIN;
+        menuPoss[currentMenuCode] = 0;
+        break;
+      }
   }
   showCurrentMenu();
 }
@@ -49,13 +54,13 @@ byte MenuHandler::getNextMenu(void) {
 
   switch (currentMenuCode) {
     case MENU_MAIN: {
-      return menuMainMap[poss];
-    }
+        return menuMainMap[poss];
+      }
     case MENU_CONFIG_MODEM: {
-      return menuConfigModemMap[poss];
-    }
+        return menuConfigModemMap[poss];
+      }
   }
-  
+
   return MENU_MAIN;
 }
 
@@ -79,8 +84,8 @@ int MenuHandler::getMenuRows(void) {
             currentMenuRows[i][j] = menuConfigModemRows[i][j];
           }
         }
-      break;
-    }
+        break;
+      }
   }
   return itemCount;
 }
@@ -107,3 +112,21 @@ void MenuHandler::showCurrentMenu(void) {
   display->display();
 }
 
+//
+//void showScrModemInfo(byte button) {
+//  currentMenu = SCR_MENU_INFO;
+//  if (button == BUTTON_ESC) {
+//    showMenuMain(BUTTON_NOP);
+//    return;
+//  }
+//
+//  String response = modem.ati();
+//
+//  display.clearDisplay();
+//  display.setTextSize(1);
+//  display.setCursor(0, 0);
+//  display.setTextColor(BLACK);
+//  display.println("Radio ver:");
+//  display.println(response);
+//  display.display();
+//}
