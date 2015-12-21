@@ -5,6 +5,7 @@
 #include "MavlinkModem.h"
 #include "KeypadMatrix.h"
 #include "MenuHandler.h"
+#include "ScreenHandler.h"
 
 // LCD constants
 #define PIN_SCE   6
@@ -13,8 +14,6 @@
 #define PIN_MOSI  3
 #define PIN_SCLK  2
 
-#define SCR_MENU_INFO       101
-
 // Hardware SPI (faster, but must use certain hardware pins):
 // SCK is LCD serial clock (SCLK) - this is pin 13 on Arduino Uno
 // MOSI is LCD DIN - this is pin 11 on an Arduino Uno
@@ -22,14 +21,17 @@
 
 Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
 MavlinkModem modem(&Serial);
-KeypadMatrix keypad(12, 11, 10, 9, 8, 7);
-MenuHandler menuHandler = MenuHandler(&display);
+KeypadMatrix keypad = KeypadMatrix(12, 11, 10, 9, 8, 7);
+ScreenHandler screenHandler = ScreenHandler(&display, &modem);
+MenuHandler menuHandler = MenuHandler(&display, &screenHandler);
 
-int menu0Poss = 0;
+String initResponse;
+String atiResponse;
+int atiTime, usedTime, initTime;
 
 void setup() {
   initDisplay();
-  modem.init(BOUND_RATE_57600);
+  Serial.begin(BOUND_RATE_57600);
   keypad.init();
   menuHandler.init();
 }
@@ -37,7 +39,7 @@ void setup() {
 void loop() {
   menuHandler.start();
   byte button = keypad.read();
-  if (button != BUTTON_NOP) {
+  if (button == BUTTON_UP || button == BUTTON_DOWN || button == BUTTON_ENTER || button == BUTTON_ESC) {
     menuHandler.pressedKey(button);
   } else {
     delay(20);

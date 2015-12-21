@@ -1,3 +1,6 @@
+#ifndef _KEYPAD_MATRIX_H
+#define _KEYPAD_MATRIX_H
+
 #include <stdlib.h>
 #include <Arduino.h>
 
@@ -42,3 +45,4 @@ class KeypadMatrix {
     unsigned int pushedTime;
 };
 
+#endif

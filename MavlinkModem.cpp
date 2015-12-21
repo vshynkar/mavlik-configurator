@@ -1,14 +1,13 @@
-#include <stdlib.h>
-#include <Arduino.h>
-#include <HardwareSerial.h>
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
 #include "MavlinkModem.h"
 
-MavlinkModem::MavlinkModem(HardwareSerial* s) {
+MavlinkModem::MavlinkModem(HardwareSerial *s) {
   serial = s;
-}
-
-void MavlinkModem::init(int boundRate) {
-  serial->begin(boundRate);
 }
 
 bool MavlinkModem::startCmdMode(void) {
@@ -17,11 +16,13 @@ bool MavlinkModem::startCmdMode(void) {
 }
 
 void MavlinkModem::stopCmdMode(void) {
-  runCmd("ATO\r", 30, false);
+  runCmd("ATO\r", ATI_DELAY, false);
 }
 
 // show radio version
 String MavlinkModem::ati(void) {
+  //  String response = runCmd("+++", 1200, true);
+  //  runCmd("ATO\r", ATI_DELAY, false);
   String response = "";
   if (startCmdMode()) {
     response = runCmd("ATI\r", ATI_DELAY, false);
@@ -87,35 +88,59 @@ String MavlinkModem::ati7(void) {
 }
 
 // ATSn? – display radio parameter number ‘n’
-int MavlinkModem::ats(int number) {
-  String cmd = "ATS" + String(number) + "?\r";
-  String value = runCmd(cmd, 30, false);
-  value.replace(cmd, "");
-  value.replace("\r\n", "");
-  return value.toInt();
-}
-
-void MavlinkModem::atsAll(int* rows) {
-  String cmd;
-  String value;
-  for (int i = 0; i < 16; i++) {
-    cmd = "ATS" + String(i) + "?\r";
-    value = runCmd(cmd, 30, false);
+unsigned int MavlinkModem::ats(int number) {
+  unsigned int result;
+  if (startCmdMode()) {
+    String cmd = "ATS" + String(number) + "?\r";
+    String value = runCmd(cmd, 30, false);
     value.replace(cmd, "");
     value.replace("\r\n", "");
-    rows[i] = value.toInt();
+
+    if (number == 8 || number == 9) {
+    char tarray[10];
+      value.toCharArray(tarray, sizeof(tarray));
+      long lValue = atol(tarray);
+      result = lValue / 1000;
+    } else {
+      result = value.toInt();
+    }
+    stopCmdMode();
+  }
+  return result;
+}
+
+void MavlinkModem::atsAll(unsigned int rows[]) {
+  if (startCmdMode()) {
+    String cmd;
+    String value;
+    for (int i = 1; i < 16; i++) {
+      cmd = "ATS" + String(i) + "?\r";
+      value = runCmd(cmd, 30, false);
+      value.replace(cmd, "");
+      value.replace("\r\n", "");
+
+      if (i == 8 || i == 9) {
+      char tarray[10];
+        value.toCharArray(tarray, sizeof(tarray));
+        long lValue = atol(tarray);
+        rows[i-1] = lValue / 1000;
+      } else {
+        rows[i-1] = value.toInt();
+      }
+    }
+    stopCmdMode();
   }
 }
 
 String MavlinkModem::runCmd(String cmd, int timeout, bool checkCR) {
   String response = "";
-  serial->print(cmd);
+  Serial.print(cmd);
 
   unsigned long firstReadTime = millis();
   unsigned long lastReadTime = 0;
   while (true) {
-    if (serial->available() > 0) {
-      char symbol = serial->read();
+    if (Serial.available() > 0) {
+      char symbol = Serial.read();
       if (checkCR && symbol == '\r') {
         operationUsedTime = millis() - firstReadTime;
         break;

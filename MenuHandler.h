@@ -1,18 +1,22 @@
-#include <stdlib.h>
-#include <Arduino.h>
+#ifndef _MENU_HANDLER_H
+#define _MENU_HANDLER_H
+
 #include <avr/pgmspace.h>
+
+#if defined(ARDUINO) && ARDUINO >= 100
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+#endif
+
 #include "Adafruit_GFX.h"
 #include "Adafruit_PCD8544.h"
+#include "ScreenHandler.h"
 
 // this number is index in menuPossition array. So the value ust be incremental withous gaps.
 #define MENU_MAIN            1
 #define MENU_CONFIG_MODEM    2
 #define MENU_SECRET_KEY      3
-
-#define SCR_CONFIG_MODEM_TO_MEM        101
-#define SCR_CONFIG_MODEM_TO_SCREEN     102
-#define SCR_CONFIG_MEM_TO_MODEM        101
-#define SCR_CONFIG_MEM_TO_SCREEN       102
 
 #define LINE_LENGTH          14
 #define DISPLAY_ROWS         6
@@ -35,7 +39,7 @@ const byte menuConfigModemMap[] = {SCR_CONFIG_MODEM_TO_MEM, SCR_CONFIG_MODEM_TO_
 
 class MenuHandler {
   public:
-    MenuHandler(Adafruit_PCD8544* d);
+    MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr);
     void pressedKey(byte button);
     void start(void);
     void init(void);
@@ -47,9 +51,13 @@ class MenuHandler {
     int getMenuRows(void);            // set appropriate menu rows into 'currentMenuRows' array based on menu code from 'currentMenuCode' variable. Return number of rows in array.
     void changeCursor(void);
     Adafruit_PCD8544* display;
+    ScreenHandler* screen;
     boolean isFirstRun;
+    boolean isScreenShowing;
     byte currentMenuCode;
+    byte currentScreenCode;
     byte menuPoss[3] {0, 0, 0};        // Menu code is index here. Every value is current index in appropriate menu.
     char currentMenuRows[DISPLAY_ROWS][LINE_LENGTH];
 };
 
+#endif

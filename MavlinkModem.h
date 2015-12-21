@@ -1,3 +1,11 @@
+#ifndef _MAVLINK_MODEM_H
+#define _MAVLINK_MODEM_H
+
+#if defined(ARDUINO) && ARDUINO >= 100
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+#endif
 
 #define BOUND_RATE_14400    14400
 #define BOUND_RATE_19200    19200
@@ -12,8 +20,7 @@
 
 class MavlinkModem {
   public:
-    MavlinkModem(HardwareSerial* s);
-    void init(int boundRate);
+    MavlinkModem(HardwareSerial *s);
     unsigned int getOperationUsedTime(void);
 
     String ati(void);
@@ -22,8 +29,8 @@ class MavlinkModem {
     String ati4(void);
     String ati6(void);
     String ati7(void);
-    int ats(int number);
-    void atsAll(int* rows);
+    unsigned int ats(int number);
+    void atsAll(unsigned int rows[]);
     void ats(int number, int value);
     void reboot(void);
     void flushToEeprom(void);
@@ -38,3 +45,5 @@ class MavlinkModem {
     String runCmd(String cmd, int timeout, bool checkCR);
 };
 
+
+#endif

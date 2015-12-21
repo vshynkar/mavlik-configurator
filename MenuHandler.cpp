@@ -1,41 +1,77 @@
 #include "MenuHandler.h"
 #include "KeypadMatrix.h"
 
-MenuHandler::MenuHandler(Adafruit_PCD8544* d) {
+MenuHandler::MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr) {
   display = d;
+  screen = scr;
   isFirstRun = true;
+  isScreenShowing = false;
   currentMenuCode = MENU_MAIN;
 }
 
 void MenuHandler::pressedKey(byte button) {
-  switch (button) {
-    case BUTTON_UP: {
-        if (menuPoss[currentMenuCode] > 0) {
-          menuPoss[currentMenuCode]--;
+  byte screenButton;
+  if (!isScreenShowing) {
+    switch (button) {
+      case BUTTON_UP: {
+          if (menuPoss[currentMenuCode] > 0) {
+            menuPoss[currentMenuCode]--;
+          }
+          break;
         }
-        break;
-      }
-    case BUTTON_DOWN: {
-        int rowsCount = getMenuRows();
-        if (menuPoss[currentMenuCode] < rowsCount - 1) {
-          menuPoss[currentMenuCode]++;
+      case BUTTON_DOWN: {
+          int rowsCount = getMenuRows();
+          if (menuPoss[currentMenuCode] < rowsCount - 1) {
+            menuPoss[currentMenuCode]++;
+          }
+          break;
         }
-        break;
-      }
-    case BUTTON_ENTER: {
-        currentMenuCode = getNextMenu();
-        if (currentMenuCode == MENU_MAIN) {
+      case BUTTON_ENTER: {
+          byte mode = getNextMenu();
+          if (mode > SRC_START_INDEX) {
+            currentScreenCode = mode;
+            isScreenShowing = true;
+            screen->cleanData();
+          } else {
+            currentMenuCode = mode;
+            if (currentMenuCode == MENU_MAIN) {
+              menuPoss[currentMenuCode] = 0;
+            }
+          }
+          break;
+        }
+      case BUTTON_ESC: {
+          currentMenuCode = MENU_MAIN;
           menuPoss[currentMenuCode] = 0;
+          break;
         }
-        break;
-      }
-    case BUTTON_ESC: {
-        currentMenuCode = MENU_MAIN;
-        menuPoss[currentMenuCode] = 0;
-        break;
-      }
+    }
+  } else {
+    switch (button) {
+      case BUTTON_UP: {
+          screenButton = BUTTON_UP;
+          break;
+        }
+      case BUTTON_DOWN: {
+          screenButton = BUTTON_DOWN;
+          break;
+        }
+      case BUTTON_ENTER: {
+          break;
+        }
+      case BUTTON_ESC: {
+          currentScreenCode = 0;
+          isScreenShowing = false;
+          screen->cleanData();
+          break;
+        }
+    }
   }
-  showCurrentMenu();
+  if (isScreenShowing) {
+    screen->showSelectedScreen(currentScreenCode, screenButton);
+  } else {
+    showCurrentMenu();
+  }
 }
 
 void MenuHandler::init(void) {
@@ -112,21 +148,3 @@ void MenuHandler::showCurrentMenu(void) {
   display->display();
 }
 
-//
-//void showScrModemInfo(byte button) {
-//  currentMenu = SCR_MENU_INFO;
-//  if (button == BUTTON_ESC) {
-//    showMenuMain(BUTTON_NOP);
-//    return;
-//  }
-//
-//  String response = modem.ati();
-//
-//  display.clearDisplay();
-//  display.setTextSize(1);
-//  display.setCursor(0, 0);
-//  display.setTextColor(BLACK);
-//  display.println("Radio ver:");
-//  display.println(response);
-//  display.display();
-//}
