@@ -119,6 +119,12 @@ byte MenuHandler::getNextMenu(void) {
     case MENU_CONFIG_MODEM_MEM_TO_MODEM: {
         return menuConfigModemMemToModemMap[poss];
       }
+    case MENU_CONFIG_SLOTS: {
+        return menuConfigSlotsMap[poss];
+      }
+    case MENU_CONFIG_SLOTS_DEL_ONE: {
+        return menuConfigSlotsDelOneMap[poss];
+      }
   }
 
   return MENU_MAIN;
@@ -151,6 +157,15 @@ int MenuHandler::getMenuRows(void) {
         updateMenuSlotList();
         break;
       }
+    case MENU_CONFIG_SLOTS: {
+        itemCount = copyMenuRows(menuConfigSlotsRows, sizeof(menuConfigSlotsRows));
+        break;
+      }
+    case MENU_CONFIG_SLOTS_DEL_ONE: {
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        updateMenuSlotList();
+        break;
+      }
   }
   return itemCount;
 }
@@ -169,7 +184,7 @@ void MenuHandler::updateMenuSlotList(void) {
   for (int i = 0; i < CONFIG_SLOT_COUNT; i++) {
     ModemConfigSlot slot = ModemConfigSlot();
     slot.readMemory(i);
-    if ((slot.statusFlag & CONFIG_SLOT_USED_MASK) > 0) {
+    if (bitRead(slot.statusFlag, CONFIG_BIT_SLOT_USED_MASK) == 0) {
       currentMenuRows[i][2] = '-';
     }
   }

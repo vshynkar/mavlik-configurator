@@ -34,11 +34,19 @@
 #define SCR_CONFIG_MEM_TO_SCREEN_5     118
 #define SCR_CONFIG_MEM_TO_SCREEN_6     119
 #define SCR_CONFIG_MEM_TO_SCREEN_7     120
+#define SCR_CONFIG_SLOTS_DEL_ALL       121
+#define SCR_CONFIG_SLOTS_DEL_ONE_1     122
+#define SCR_CONFIG_SLOTS_DEL_ONE_2     123
+#define SCR_CONFIG_SLOTS_DEL_ONE_3     124
+#define SCR_CONFIG_SLOTS_DEL_ONE_4     125
+#define SCR_CONFIG_SLOTS_DEL_ONE_5     126
+#define SCR_CONFIG_SLOTS_DEL_ONE_6     127
 
 #define LINE_LENGTH                    14
 
 const char message_1[LINE_LENGTH] = {0x20, 0x20, 0xC6, 0xDF, 0xE4, 0xF2, 0xE4, 0xE6, 0xE4, 0xEF, 0xF0, '!',   0x20, 0x20};    // Збережено
 const char message_2[LINE_LENGTH] = {0x20, 0x20, 0xC6, 0xF9, 0xE8, 0xF4, 0xF5, 0xE0, 0xDE, 0xEF, 0xEF, 0xFE,  0x20, 0x20};    // Зчитування
+const char message_3[LINE_LENGTH] = {0x20, 0x20, 0x20, 0xBF, 0xE8, 0xE3, 0xDE, 0xED, 0xE4, 0xEF, 0xF0, 0x20,  0x20, 0x20};    // Видалено
 
 class ScreenHandler {
   public:
@@ -51,6 +59,8 @@ class ScreenHandler {
     void showSrcModemToMem(byte slotNumber);
     void showSrcMemToModem(byte slotNumber);
     void showSrcMemToScreen(byte slotNumber);
+    void showSrcSlotDelOne(byte slotNumber);
+    void showSrcSlotDelAll(void);
     void updateOffset(byte button, byte maxValue);
     void printLine(String label, long value);
     void showScrMessage(const char msg[]);

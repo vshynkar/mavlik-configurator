@@ -101,7 +101,49 @@ void ScreenHandler::showSelectedScreen(byte screenCode, byte button) {
         showSrcMemToScreen(5);
         break;
       }
+    case SCR_CONFIG_SLOTS_DEL_ONE_1: {
+        showSrcSlotDelOne(0);
+        break;
+      }
+    case SCR_CONFIG_SLOTS_DEL_ONE_2: {
+        showSrcSlotDelOne(1);
+        break;
+      }
+    case SCR_CONFIG_SLOTS_DEL_ONE_3: {
+        showSrcSlotDelOne(2);
+        break;
+      }
+    case SCR_CONFIG_SLOTS_DEL_ONE_4: {
+        showSrcSlotDelOne(3);
+        break;
+      }
+    case SCR_CONFIG_SLOTS_DEL_ONE_5: {
+        showSrcSlotDelOne(4);
+        break;
+      }
+    case SCR_CONFIG_SLOTS_DEL_ONE_6: {
+        showSrcSlotDelOne(5);
+        break;
+      }
+    case SCR_CONFIG_SLOTS_DEL_ALL: {
+      showSrcSlotDelAll();
+      break;
+    }
   }
+}
+
+void ScreenHandler::showSrcSlotDelOne(byte slotNumber) {
+  ModemConfigSlot slot = ModemConfigSlot();
+  slot.deleteSlot(slotNumber);
+  showScrMessage(message_3);
+}
+
+void ScreenHandler::showSrcSlotDelAll(void) {
+  ModemConfigSlot slot = ModemConfigSlot();
+  for (int i = 0; i < 6; i++) {
+    slot.deleteSlot(i);
+  }
+  showScrMessage(message_3);  
 }
 
 void ScreenHandler::updateOffset(byte button, byte maxValue) {
@@ -123,14 +165,13 @@ void ScreenHandler::updateOffset(byte button, byte maxValue) {
 void ScreenHandler::showSrcModemToMem(byte slotNumber) {
   if (!isDataCached) {
     showScrMessage(message_2);
-    modem->atsAll(modemConfig);
+    modem->readAtsAll(modemConfig);
     isDataCached = true;
   }
 
   ModemConfigSlot slot = ModemConfigSlot();
-  slot.statusFlag = slot.statusFlag | CONFIG_SLOT_USED_MASK;
-
   slot.convertIn(modemConfig);
+  bitWrite(slot.statusFlag, CONFIG_BIT_SLOT_USED_MASK, 1);
   slot.writeMemory(slotNumber);
 
   showScrMessage(message_1);
@@ -146,13 +187,15 @@ void ScreenHandler::showSrcMemToModem(byte slotNumber) {
     
     isDataCached = true;
   }
+
+  modem->writeAtsAll(modemConfig);
   showScrMessage(message_1);
 }
 
 void ScreenHandler::showSrcModemToScreen(void) {
   if (!isDataCached) {
     showScrMessage(message_2);
-    modem->atsAll(modemConfig);
+    modem->readAtsAll(modemConfig);
     isDataCached = true;
   }
   showOnScreen();

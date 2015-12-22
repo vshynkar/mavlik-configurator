@@ -146,6 +146,13 @@ void ModemConfigSlot::writeInt(int address, int value) {
   EEPROM.update(address + 1, highByte);
 }
 
+void ModemConfigSlot::deleteSlot(byte slotNumber) {
+  int address = startAddress(slotNumber);
+  for (int i = 0; i < CONFIG_SLOT_SIZE; i++) {
+    EEPROM.update(address + i, 0x00);
+  }
+}
+
 void ModemConfigSlot::convertIn(int rows[]) {
   serialSpeed =    rows[0];
   airSpeed =       rows[1];

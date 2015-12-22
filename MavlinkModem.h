@@ -30,10 +30,10 @@ class MavlinkModem {
     String ati6(void);
     String ati7(void);
     int ats(int number);
-    void atsAll(int rows[]);
     void ats(int number, int value);
+    void readAtsAll(int rows[]);
+    void writeAtsAll(int rows[]);
     void reboot(void);
-    void flushToEeprom(void);
     void resetToDefault(void);
 
   private:

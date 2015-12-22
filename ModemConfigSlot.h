@@ -12,8 +12,7 @@
 #define CONFIG_SLOT_SIZE    49    // in bytes
 #define CONFIG_SLOT_START   64    // address of first byte
 
-#define CONFIG_SLOT_USED_MASK          B00000001
-#define CONFIG_SLOT_CLEAN_MASK         B11111110
+#define CONFIG_BIT_SLOT_USED_MASK      1
 
 
 class ModemConfigSlot {
@@ -22,6 +21,7 @@ class ModemConfigSlot {
     void writeMemory(byte slotNumber);      // from 0 to 5
     void convertIn(int rows[]);
     void convertOut(int rows[]);
+    void deleteSlot(byte slotNumber);
   
     byte statusFlag;
     char slotName[14];

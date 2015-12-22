@@ -92,7 +92,7 @@ int MavlinkModem::ats(int number) {
   int result;
   if (startCmdMode()) {
     String cmd = "ATS" + String(number) + "?\r";
-    String value = runCmd(cmd, 30, false);
+    String value = runCmd(cmd, ATI_DELAY, false);
     value.replace(cmd, "");
     value.replace("\r\n", "");
 
@@ -109,13 +109,29 @@ int MavlinkModem::ats(int number) {
   return result;
 }
 
-void MavlinkModem::atsAll(int rows[]) {
+// ATSn=X – set radio parameter number ‘n’ to ‘X’
+void MavlinkModem::ats(int number, int p_value) {
+  long regValue;
+  if (startCmdMode()) {
+    if (number == 8 || number == 9) {
+      regValue = long(p_value) *1000;
+    } else {
+      regValue = p_value;
+    }
+    String cmd = "ATS" + String(number) + "=" + String(regValue) + "\r";
+    runCmd(cmd, ATI_DELAY, false);
+    runCmd("AT&W\r", ATI_DELAY, false);
+    stopCmdMode();
+  }
+}
+
+void MavlinkModem::readAtsAll(int rows[]) {
   if (startCmdMode()) {
     String cmd;
     String value;
     for (int i = 1; i < 16; i++) {
       cmd = "ATS" + String(i) + "?\r";
-      value = runCmd(cmd, 30, false);
+      value = runCmd(cmd, ATI_DELAY, false);
       value.replace(cmd, "");
       value.replace("\r\n", "");
 
@@ -128,6 +144,24 @@ void MavlinkModem::atsAll(int rows[]) {
         rows[i-1] = value.toInt();
       }
     }
+    stopCmdMode();
+  }
+}
+
+void MavlinkModem::writeAtsAll(int rows[]) {
+  if (startCmdMode()) {
+    String cmd;
+    long value;
+    for (int i = 1; i < 16; i++) {
+      if (i == 8 || i == 9) {
+        value = long(rows[i-1]) * 1000;
+      } else {
+        value = long(rows[i-1]);
+      }
+      cmd = "ATS" + String(i) + "=" + value + "\r";
+      runCmd(cmd, ATI_DELAY, false);
+    }
+    runCmd("AT&W\r", ATI_DELAY, false);
     stopCmdMode();
   }
 }
