@@ -11,13 +11,34 @@
 #include "Adafruit_GFX.h"
 #include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
+#include "ModemConfigSlot.h"
 
 #define SRC_START_INDEX                100
-#define SCR_CONFIG_MODEM_TO_MEM        101
-#define SCR_CONFIG_MODEM_TO_SCREEN     102
-#define SCR_CONFIG_MEM_TO_MODEM        103
-#define SCR_CONFIG_MEM_TO_SCREEN       104
+#define SCR_CONFIG_MODEM_TO_MEM_1      101
+#define SCR_CONFIG_MODEM_TO_MEM_2      102
+#define SCR_CONFIG_MODEM_TO_MEM_3      103
+#define SCR_CONFIG_MODEM_TO_MEM_4      104
+#define SCR_CONFIG_MODEM_TO_MEM_5      105
+#define SCR_CONFIG_MODEM_TO_MEM_6      106
+#define SCR_CONFIG_MODEM_TO_SCREEN     107
+#define SCR_CONFIG_MEM_TO_MODEM_1      108
+#define SCR_CONFIG_MEM_TO_MODEM_2      109
+#define SCR_CONFIG_MEM_TO_MODEM_3      110
+#define SCR_CONFIG_MEM_TO_MODEM_4      111
+#define SCR_CONFIG_MEM_TO_MODEM_5      112
+#define SCR_CONFIG_MEM_TO_MODEM_6      113
+#define SCR_CONFIG_MEM_TO_SCREEN_1     114
+#define SCR_CONFIG_MEM_TO_SCREEN_2     115
+#define SCR_CONFIG_MEM_TO_SCREEN_3     116
+#define SCR_CONFIG_MEM_TO_SCREEN_4     117
+#define SCR_CONFIG_MEM_TO_SCREEN_5     118
+#define SCR_CONFIG_MEM_TO_SCREEN_6     119
+#define SCR_CONFIG_MEM_TO_SCREEN_7     120
 
+#define LINE_LENGTH                    14
+
+const char message_1[LINE_LENGTH] = {0x20, 0x20, 0xC6, 0xDF, 0xE4, 0xF2, 0xE4, 0xE6, 0xE4, 0xEF, 0xF0, '!',   0x20, 0x20};    // Збережено
+const char message_2[LINE_LENGTH] = {0x20, 0x20, 0xC6, 0xF9, 0xE8, 0xF4, 0xF5, 0xE0, 0xDE, 0xEF, 0xEF, 0xFE,  0x20, 0x20};    // Зчитування
 
 class ScreenHandler {
   public:
@@ -27,11 +48,16 @@ class ScreenHandler {
 
   private:
     void showSrcModemToScreen(void);
-    void updateOffset(byte button, byte naxValue);
+    void showSrcModemToMem(byte slotNumber);
+    void showSrcMemToModem(byte slotNumber);
+    void showSrcMemToScreen(byte slotNumber);
+    void updateOffset(byte button, byte maxValue);
     void printLine(String label, long value);
+    void showScrMessage(const char msg[]);
+    void showOnScreen(void);
     Adafruit_PCD8544* display;
     MavlinkModem* modem;
-    unsigned int modemConfig[15];
+    int modemConfig[15];
     boolean isDataCached;
     int displayOffset;
 };

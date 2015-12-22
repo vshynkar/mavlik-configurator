@@ -11,13 +11,35 @@ ScreenHandler::ScreenHandler(Adafruit_PCD8544* d, MavlinkModem* m) {
 }
 
 void ScreenHandler::cleanData(void) {
-  isDataCached = 0;
+  isDataCached = false;
+  displayOffset = 0;
 }
 
 
 void ScreenHandler::showSelectedScreen(byte screenCode, byte button) {
   switch (screenCode) {
-    case SCR_CONFIG_MODEM_TO_MEM: {
+    case SCR_CONFIG_MODEM_TO_MEM_1: {
+        showSrcModemToMem(0);
+        break;
+      }
+    case SCR_CONFIG_MODEM_TO_MEM_2: {
+        showSrcModemToMem(1);
+        break;
+      }
+    case SCR_CONFIG_MODEM_TO_MEM_3: {
+        showSrcModemToMem(2);
+        break;
+      }
+    case SCR_CONFIG_MODEM_TO_MEM_4: {
+        showSrcModemToMem(3);
+        break;
+      }
+    case SCR_CONFIG_MODEM_TO_MEM_5: {
+        showSrcModemToMem(4);
+        break;
+      }
+    case SCR_CONFIG_MODEM_TO_MEM_6: {
+        showSrcModemToMem(5);
         break;
       }
     case SCR_CONFIG_MODEM_TO_SCREEN: {
@@ -25,16 +47,64 @@ void ScreenHandler::showSelectedScreen(byte screenCode, byte button) {
         showSrcModemToScreen();
         break;
       }
-    case SCR_CONFIG_MEM_TO_MODEM: {
+    case SCR_CONFIG_MEM_TO_MODEM_1: {
+        showSrcMemToModem(0);
         break;
       }
-    case SCR_CONFIG_MEM_TO_SCREEN: {
+    case SCR_CONFIG_MEM_TO_MODEM_2: {
+        showSrcMemToModem(1);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_MODEM_3: {
+        showSrcMemToModem(2);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_MODEM_4: {
+        showSrcMemToModem(3);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_MODEM_5: {
+        showSrcMemToModem(4);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_MODEM_6: {
+        showSrcMemToModem(5);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_SCREEN_1: {
+        updateOffset(button, 9);
+        showSrcMemToScreen(0);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_SCREEN_2: {
+        updateOffset(button, 9);
+        showSrcMemToScreen(1);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_SCREEN_3: {
+        updateOffset(button, 9);
+        showSrcMemToScreen(2);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_SCREEN_4: {
+        updateOffset(button, 9);
+        showSrcMemToScreen(3);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_SCREEN_5: {
+        updateOffset(button, 9);
+        showSrcMemToScreen(4);
+        break;
+      }
+    case SCR_CONFIG_MEM_TO_SCREEN_6: {
+        updateOffset(button, 9);
+        showSrcMemToScreen(5);
         break;
       }
   }
 }
 
-void ScreenHandler::updateOffset(byte button, byte naxValue) {
+void ScreenHandler::updateOffset(byte button, byte maxValue) {
   switch (button) {
     case BUTTON_UP: {
         if (displayOffset > 0) {
@@ -43,31 +113,75 @@ void ScreenHandler::updateOffset(byte button, byte naxValue) {
         break;
       }
     case BUTTON_DOWN: {
-        if (displayOffset < naxValue) {
+        if (displayOffset < maxValue) {
           displayOffset++;
         }
       }
   }
 }
 
-void ScreenHandler::showSrcModemToScreen(void) {
+void ScreenHandler::showSrcModemToMem(byte slotNumber) {
   if (!isDataCached) {
+    showScrMessage(message_2);
     modem->atsAll(modemConfig);
     isDataCached = true;
   }
+
+  ModemConfigSlot slot = ModemConfigSlot();
+  slot.statusFlag = slot.statusFlag | CONFIG_SLOT_USED_MASK;
+
+  slot.convertIn(modemConfig);
+  slot.writeMemory(slotNumber);
+
+  showScrMessage(message_1);
+}
+
+void ScreenHandler::showSrcMemToModem(byte slotNumber) {
+  if (!isDataCached) {
+    showScrMessage(message_2);
+    
+    ModemConfigSlot slot = ModemConfigSlot();
+    slot.readMemory(slotNumber);
+    slot.convertOut(modemConfig);
+    
+    isDataCached = true;
+  }
+  showScrMessage(message_1);
+}
+
+void ScreenHandler::showSrcModemToScreen(void) {
+  if (!isDataCached) {
+    showScrMessage(message_2);
+    modem->atsAll(modemConfig);
+    isDataCached = true;
+  }
+  showOnScreen();
+}
+
+void ScreenHandler::showSrcMemToScreen(byte slotNumber) {
+  if (!isDataCached) {
+    showScrMessage(message_2);
+
+    ModemConfigSlot slot = ModemConfigSlot();
+    slot.readMemory(slotNumber);
+    slot.convertOut(modemConfig);
+
+    isDataCached = true;
+  }
+  showOnScreen();
+}
+
+void ScreenHandler::showOnScreen(void) {
   display->clearDisplay();
   display->setTextSize(1);
   display->setCursor(0, 0);
   display->setTextColor(BLACK);
 
-//  if (displayOffset < 1) {
-//    printLine("FORMAT=", long(modemConfig[0]));
-//  }
   if (displayOffset < 1) {
-    printLine("PORT_SPD=", long(modemConfig[0]));
+    printLine("PORT_SPEED=", long(modemConfig[0]));
   }
   if (displayOffset < 2) {
-    printLine("AIR_SPD=", long(modemConfig[1]));
+    printLine("AIR_SPEED=", long(modemConfig[1]));
   }
   if (displayOffset < 3) {
     printLine("NETID=", long(modemConfig[2]));
@@ -101,6 +215,21 @@ void ScreenHandler::showSrcModemToScreen(void) {
   display->display();
 }
 
+void ScreenHandler::showScrMessage(const char msg[]) {
+  display->clearDisplay();
+  display->setTextSize(1);
+  display->setCursor(0, 0);
+  display->setTextColor(BLACK);
+
+  display->println();
+  display->println();
+  for (int i = 0; i < LINE_LENGTH; i++) {
+    display->print(msg[i]);
+  }
+
+  display->display();
+}
+
 void ScreenHandler::printLine(String label, long value) {
   char row[14];
   label += String(value);
@@ -110,7 +239,7 @@ void ScreenHandler::printLine(String label, long value) {
   char strArray[strLength];
   label.toCharArray(strArray, strLength);
 
-  for (int i = 0; i < 14; i++)  {
+  for (int i = 0; i < LINE_LENGTH; i++)  {
     if (i < strLength) {
       row[i] = strArray[i];
     } else {
@@ -118,7 +247,7 @@ void ScreenHandler::printLine(String label, long value) {
     }
   }
 
-  for (int i = 0; i < 14; i++) {
+  for (int i = 0; i < LINE_LENGTH; i++) {
     display->print(row[i]);
   }
 }

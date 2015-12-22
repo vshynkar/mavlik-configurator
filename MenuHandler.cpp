@@ -1,5 +1,6 @@
 #include "MenuHandler.h"
 #include "KeypadMatrix.h"
+#include "ModemConfigSlot.h"
 
 MenuHandler::MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr) {
   display = d;
@@ -7,6 +8,15 @@ MenuHandler::MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr) {
   isFirstRun = true;
   isScreenShowing = false;
   currentMenuCode = MENU_MAIN;
+  menuDepthIndex = 0;
+
+  for (int i = 0; i < sizeof(menuPoss); i++) {
+    menuPoss[i] = 0;
+  }
+  for (int i = 0; i < sizeof(menuDepthArray); i++) {
+    menuDepthArray[i] = 0;
+  }
+  menuDepthArray[0] = MENU_MAIN;
 }
 
 void MenuHandler::pressedKey(byte button) {
@@ -34,6 +44,8 @@ void MenuHandler::pressedKey(byte button) {
             screen->cleanData();
           } else {
             currentMenuCode = mode;
+            menuDepthIndex++;
+            menuDepthArray[menuDepthIndex] = mode;
             if (currentMenuCode == MENU_MAIN) {
               menuPoss[currentMenuCode] = 0;
             }
@@ -41,8 +53,11 @@ void MenuHandler::pressedKey(byte button) {
           break;
         }
       case BUTTON_ESC: {
-          currentMenuCode = MENU_MAIN;
-          menuPoss[currentMenuCode] = 0;
+          if (currentMenuCode != MENU_MAIN) {
+            menuPoss[currentMenuCode] = 0;
+            menuDepthIndex--;
+            currentMenuCode = menuDepthArray[menuDepthIndex];
+          }
           break;
         }
     }
@@ -95,6 +110,15 @@ byte MenuHandler::getNextMenu(void) {
     case MENU_CONFIG_MODEM: {
         return menuConfigModemMap[poss];
       }
+    case MENU_CONFIG_MODEM_MODEM_TO_MEM: {
+        return menuConfigModemModemToMemMap[poss];
+      }
+    case MENU_CONFIG_MODEM_MEM_TO_SCREEN: {
+        return menuConfigModemMemToScreenMap[poss];
+      }
+    case MENU_CONFIG_MODEM_MEM_TO_MODEM: {
+        return menuConfigModemMemToModemMap[poss];
+      }
   }
 
   return MENU_MAIN;
@@ -105,25 +129,50 @@ int MenuHandler::getMenuRows(void) {
   int itemCount = 0;
   switch (currentMenuCode) {
     case MENU_MAIN: {
-        itemCount = sizeof(menuMainRows) / LINE_LENGTH;
-        for (int i = 0; i < itemCount; i++) {
-          for (int j = 0; j < LINE_LENGTH; j++) {
-            currentMenuRows[i][j] = menuMainRows[i][j];
-          }
-        }
+        itemCount = copyMenuRows(menuMainRows, sizeof(menuMainRows));
         break;
       }
     case MENU_CONFIG_MODEM: {
-        itemCount = sizeof(menuConfigModemRows) / LINE_LENGTH;
-        for (int i = 0; i < itemCount; i++) {
-          for (int j = 0; j < LINE_LENGTH; j++) {
-            currentMenuRows[i][j] = menuConfigModemRows[i][j];
-          }
-        }
+        itemCount = copyMenuRows(menuConfigModemRows, sizeof(menuConfigModemRows));
+        break;
+      }
+    case MENU_CONFIG_MODEM_MODEM_TO_MEM: {
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        updateMenuSlotList();
+        break;
+      }
+    case MENU_CONFIG_MODEM_MEM_TO_SCREEN: {
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        updateMenuSlotList();
+        break;
+      }
+    case MENU_CONFIG_MODEM_MEM_TO_MODEM: {
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        updateMenuSlotList();
         break;
       }
   }
   return itemCount;
+}
+
+int MenuHandler::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize) {
+  int itemCount = arraySize / LINE_LENGTH;
+  for (int i = 0; i < itemCount; i++) {
+    for (int j = 0; j < LINE_LENGTH; j++) {
+      currentMenuRows[i][j] = menuRows[i][j];
+    }
+  }
+  return itemCount;
+}
+
+void MenuHandler::updateMenuSlotList(void) {
+  for (int i = 0; i < CONFIG_SLOT_COUNT; i++) {
+    ModemConfigSlot slot = ModemConfigSlot();
+    slot.readMemory(i);
+    if ((slot.statusFlag & CONFIG_SLOT_USED_MASK) > 0) {
+      currentMenuRows[i][2] = '-';
+    }
+  }
 }
 
 void MenuHandler::showCurrentMenu(void) {

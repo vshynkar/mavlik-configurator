@@ -88,8 +88,8 @@ String MavlinkModem::ati7(void) {
 }
 
 // ATSn? – display radio parameter number ‘n’
-unsigned int MavlinkModem::ats(int number) {
-  unsigned int result;
+int MavlinkModem::ats(int number) {
+  int result;
   if (startCmdMode()) {
     String cmd = "ATS" + String(number) + "?\r";
     String value = runCmd(cmd, 30, false);
@@ -109,7 +109,7 @@ unsigned int MavlinkModem::ats(int number) {
   return result;
 }
 
-void MavlinkModem::atsAll(unsigned int rows[]) {
+void MavlinkModem::atsAll(int rows[]) {
   if (startCmdMode()) {
     String cmd;
     String value;

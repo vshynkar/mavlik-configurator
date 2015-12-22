@@ -29,8 +29,8 @@ class MavlinkModem {
     String ati4(void);
     String ati6(void);
     String ati7(void);
-    unsigned int ats(int number);
-    void atsAll(unsigned int rows[]);
+    int ats(int number);
+    void atsAll(int rows[]);
     void ats(int number, int value);
     void reboot(void);
     void flushToEeprom(void);
