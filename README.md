@@ -7,3 +7,8 @@ Mavlink modem AT commands:
 Copied and customized next projects' code to add support of Ukrainian language:
 * https://github.com/adafruit/Adafruit-PCD8544-Nokia-5110-LCD-library
 * https://github.com/adafruit/Adafruit-GFX-Library
+
+
+Device prototype
+
+![alt tag](https://github.com/vshynkar/mavlik-configurator/blob/master/maket.png)
