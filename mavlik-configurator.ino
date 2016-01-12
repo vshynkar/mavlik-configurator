@@ -8,11 +8,11 @@
 #include "ScreenHandler.h"
 
 // LCD constants
-#define PIN_SCE   6
-#define PIN_RST   5
-#define PIN_DC    4
-#define PIN_MOSI  3
-#define PIN_SCLK  2
+#define PIN_SCE   7
+#define PIN_RST   6
+#define PIN_DC    5
+#define PIN_MOSI  4
+#define PIN_SCLK  3
 
 // Hardware SPI (faster, but must use certain hardware pins):
 // SCK is LCD serial clock (SCLK) - this is pin 13 on Arduino Uno
@@ -21,7 +21,7 @@
 
 Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
 MavlinkModem modem(&Serial);
-KeypadMatrix keypad = KeypadMatrix(12, 11, 10, 9, 8, 7);
+KeypadMatrix keypad = KeypadMatrix(13, 12, 11, 10, 9, 8);
 ScreenHandler screenHandler = ScreenHandler(&display, &modem);
 MenuHandler menuHandler = MenuHandler(&display, &screenHandler);
 
