@@ -18,29 +18,23 @@ Device prototype
 
 
 
-Особливості:
-* робота з матричною клавіатурою, нокіа дисплеєем (через софтварний SPI) і хардварним Serial портом
-* робота з eeprom для зберігання і читання профілів налаштувань модема
-* організація інтерфейсного меню з управліням 4-ма клавішами (up, down, enter, back)
-* усе меню УКРАЇНСЬКОЮ мовою
+Features:
+* use matrix keypad, nokia 3310 display (via software SPI) and mavlink modem via hardware Serial interface;
+* save modem configurations into profiles into EEPROM. Ability to read and view;
+* create user interface and use 4 buttons to navigate (up, down, enter, escape);
+* Ukrainian user interface;
 
-У другій фазі планується:
-* повішати дисплей на хардварний SPI інтерфейс
-* замінити матричну клавіатуру на набір звичайних кнопок із вхідним здвиговим регістром
-* в меню додати розділ для збереження ряду налаштувань
-* підключити зовнішню eeprom мікросхему
-* додати англійську мову і переключення між мовами. Тексти для меню зберігати у зовнішній eeprom
-*  дисплей підключити через мікросхему конвертора рівнів 5 - 3,3 вольта  і позбутися дільників напруги на резисторах
-* використати стабілізатор на 3,3 вольта замість 4-х послідовних діодів для живлення дисплея
-
-Є плани і на третю фазу. Третьою фазою буде закінчений автономний девайс.
-Кому цікаво по технічних нюансах, нюансах реалізації чи ще щось по проекту, то питайте.
+Secon development phase, items TODO:
+* use hardware SPI to communicate with nokia display;
+* create custom keypad using input shift register 74HC165 to save arduino pins. Use interruptions for key events;
+* add ability to configure the device. Save configurations into EEPROM;
+* add English user interface and ability to swith between Ukrainian and English. Save text messages into external EEPROM;
+* use special logic level converter chip instead of voltage divitor based on resistors for nokia display;
 
 
-
-1 - GRND
-2 - VCC
-3 - QH
-4 - CLK
-5 - SH/LD
-6 - INT
+* 1 - GRND
+* 2 - VCC
+* 3 - QH
+* 4 - CLK
+* 5 - SH/LD
+* 6 - INT
