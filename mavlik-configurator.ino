@@ -3,27 +3,40 @@
 #include "Adafruit_GFX.h"
 #include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
-#include "KeypadMatrix.h"
+#include "Keypad.h"
 #include "MenuHandler.h"
 #include "ScreenHandler.h"
 
 // LCD constants
 #define PIN_SCE   7
-#define PIN_RST   6
-#define PIN_DC    5
-#define PIN_MOSI  4
-#define PIN_SCLK  3
+#define PIN_RST   8
+#define PIN_DC    9
+//#define PIN_MOSI  4
+//#define PIN_SCLK  3
+
+// Keypad pins
+#define DATA_PIN   5
+#define CLOCK_PIN  4
+#define PLOAD_PIN  3
+#define INT_PIN    2
+
 
 // Hardware SPI (faster, but must use certain hardware pins):
 // SCK is LCD serial clock (SCLK) - this is pin 13 on Arduino Uno
 // MOSI is LCD DIN - this is pin 11 on an Arduino Uno
-//Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_DC, PIN_SCE, PIN_RST);
+// pin 5 - Data/Command select (D/C)
+// pin 4 - LCD chip select (CS)
+// pin 3 - LCD reset (RST)
+// Adafruit_PCD8544 display = Adafruit_PCD8544(5, 4, 3);
+// Note with hardware SPI MISO and SS pins aren't used but will still be read
+// and written to during SPI transfer.  Be careful sharing these pins!
+Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_DC, PIN_SCE, PIN_RST);
 
-Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
+//Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
 MavlinkModem modem(&Serial);
-KeypadMatrix keypad = KeypadMatrix(13, 12, 11, 10, 9, 8);
 ScreenHandler screenHandler = ScreenHandler(&display, &modem);
 MenuHandler menuHandler = MenuHandler(&display, &screenHandler);
+Keypad keypad = Keypad(DATA_PIN, CLOCK_PIN, PLOAD_PIN);
 
 String initResponse;
 String atiResponse;
@@ -32,12 +45,17 @@ int atiTime, usedTime, initTime;
 void setup() {
   initDisplay();
   Serial.begin(BOUND_RATE_57600);
+  attachInterrupt(INT_PIN - 2, getKeypadData, RISING);
   keypad.init();
   menuHandler.init();
 }
 
 void loop() {
   menuHandler.start();
+  delay(20);
+}
+
+void getKeypadData() {
   byte button = keypad.read();
   if (button == BUTTON_UP || button == BUTTON_DOWN || button == BUTTON_ENTER || button == BUTTON_ESC) {
     menuHandler.pressedKey(button);

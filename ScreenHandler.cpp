@@ -1,7 +1,7 @@
 #include "ScreenHandler.h"
 #include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
-#include "KeypadMatrix.h"
+#include "Keypad.h"
 
 ScreenHandler::ScreenHandler(Adafruit_PCD8544* d, MavlinkModem* m) {
   display = d;

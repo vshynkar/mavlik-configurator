@@ -1,5 +1,5 @@
 #include "MenuHandler.h"
-#include "KeypadMatrix.h"
+#include "Keypad.h"
 #include "ModemConfigSlot.h"
 
 MenuHandler::MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr) {
