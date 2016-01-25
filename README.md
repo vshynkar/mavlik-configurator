@@ -31,10 +31,22 @@ Secon development phase, items TODO:
 * add English user interface and ability to swith between Ukrainian and English. Save text messages into external EEPROM;
 * use special logic level converter chip instead of voltage divitor based on resistors for nokia display;
 
+LCD connector pins:
 
-* 1 - GRND
+* 1 - VCC 3.3V
+* 2 - GND
+* 3 - SCE
+* 4 - RST
+* 5 - D/C
+* 6 - DN<MOSI>
+* 7 - SCLK
+* 8 - LED
+
+Keypad connector pins:
+
+* 1 - GND
 * 2 - VCC
-* 3 - QH
-* 4 - CLK
-* 5 - SH/LD
-* 6 - INT
+* 3 - Q7 inverted (7 pin on chip)
+* 4 - SCK (2 pin on chip)
+* 5 - PL (1 pin on chip)
+* 6 - INT (connect to interruption pin on arduino)
