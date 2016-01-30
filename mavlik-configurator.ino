@@ -1,11 +1,13 @@
 #include "glcdfont.c"
 #include <SPI.h>
+#include <Wire.h>
 #include "Adafruit_GFX.h"
 #include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
 #include "Keypad.h"
 #include "MenuHandler.h"
 #include "ScreenHandler.h"
+#include "I2C_eeprom.h"
 
 // LCD constants
 #define PIN_SCE   7
@@ -33,9 +35,10 @@
 Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_DC, PIN_SCE, PIN_RST);
 
 //Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
+I2C_eeprom ee = I2C_eeprom(0x50);
 MavlinkModem modem(&Serial);
 ScreenHandler screenHandler = ScreenHandler(&display, &modem);
-MenuHandler menuHandler = MenuHandler(&display, &screenHandler);
+MenuHandler menuHandler = MenuHandler(&display, &screenHandler, &ee);
 Keypad keypad = Keypad(DATA_PIN, CLOCK_PIN, PLOAD_PIN);
 
 String initResponse;
@@ -52,7 +55,6 @@ void setup() {
 
 void loop() {
   menuHandler.start();
-  delay(20);
 }
 
 void getKeypadData() {
