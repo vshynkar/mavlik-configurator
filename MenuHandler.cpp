@@ -136,34 +136,34 @@ int MenuHandler::getMenuRows(void) {
   int itemCount = 0;
   switch (currentMenuCode) {
     case MENU_MAIN: {
-        itemCount = readMenuRows(menuMainRows, sizeof(menuMainRows));
+        itemCount = copyMenuRows(menuMainRows, sizeof(menuMainRows));
         break;
       }
     case MENU_CONFIG_MODEM: {
-        itemCount = readMenuRows(menuConfigModemRows, sizeof(menuConfigModemRows));
+        itemCount = copyMenuRows(menuConfigModemRows, sizeof(menuConfigModemRows));
         break;
       }
     case MENU_CONFIG_MODEM_MODEM_TO_MEM: {
-        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_MODEM_MEM_TO_SCREEN: {
-        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_MODEM_MEM_TO_MODEM: {
-        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_SLOTS: {
-        itemCount = readMenuRows(menuConfigSlotsRows, sizeof(menuConfigSlotsRows));
+        itemCount = copyMenuRows(menuConfigSlotsRows, sizeof(menuConfigSlotsRows));
         break;
       }
     case MENU_CONFIG_SLOTS_DEL_ONE: {
-        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
@@ -179,18 +179,6 @@ int MenuHandler::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize)
     }
   }
   return itemCount;
-}
-
-int MenuHandler::readMenuRows(const byte menuRows[], int arraySize) {
-  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
-  
-  for (int i = 0; i < arraySize; i++) {
-    for (int j = 0; j < LINE_LENGTH; j++) {
-     currentMenuRows[i][j] = (char) ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
-     Serial.println(String(currentMenuRows[i][j]));
-    }
-  }
-  return arraySize;
 }
 
 void MenuHandler::updateMenuSlotList(void) {

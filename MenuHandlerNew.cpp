@@ -1,10 +1,11 @@
-#include "MenuHandlerOld.h"
+#include "MenuHandlerNew.h"
 #include "Keypad.h"
 #include "ModemConfigSlot.h"
 
-MenuHandlerOld::MenuHandlerOld(Adafruit_PCD8544* d, ScreenHandler* scr) {
+MenuHandlerNew::MenuHandlerNew(Adafruit_PCD8544* d, ScreenHandler* scr, I2C_eeprom* e) {
   display = d;
   screen = scr;
+  ee = e;
   isFirstRun = true;
   isScreenShowing = false;
   currentMenuCode = MENU_MAIN;
@@ -19,7 +20,7 @@ MenuHandlerOld::MenuHandlerOld(Adafruit_PCD8544* d, ScreenHandler* scr) {
   menuDepthArray[0] = MENU_MAIN;
 }
 
-void MenuHandlerOld::pressedKey(byte button) {
+void MenuHandlerNew::pressedKey(byte button) {
   byte screenButton;
   if (!isScreenShowing) {
     switch (button) {
@@ -89,18 +90,18 @@ void MenuHandlerOld::pressedKey(byte button) {
   }
 }
 
-void MenuHandlerOld::init(void) {
+void MenuHandlerNew::init(void) {
 
 }
 
-void MenuHandlerOld::start(void) {
+void MenuHandlerNew::start(void) {
   if (isFirstRun) {
     isFirstRun = false;
     showCurrentMenu();
   }
 }
 
-byte MenuHandlerOld::getNextMenu(void) {
+byte MenuHandlerNew::getNextMenu(void) {
   byte poss = menuPoss[currentMenuCode];
 
   switch (currentMenuCode) {
@@ -131,38 +132,38 @@ byte MenuHandlerOld::getNextMenu(void) {
 }
 
 // set appropriate menu rows into 'currentMenuRows' array based on menu code from 'currentMenuCode' variable. Return number of rows in array.
-int MenuHandlerOld::getMenuRows(void) {
+int MenuHandlerNew::getMenuRows(void) {
   int itemCount = 0;
   switch (currentMenuCode) {
     case MENU_MAIN: {
-        itemCount = copyMenuRows(menuMainRows, sizeof(menuMainRows));
+        itemCount = readMenuRows(menuMainRows, sizeof(menuMainRows));
         break;
       }
     case MENU_CONFIG_MODEM: {
-        itemCount = copyMenuRows(menuConfigModemRows, sizeof(menuConfigModemRows));
+        itemCount = readMenuRows(menuConfigModemRows, sizeof(menuConfigModemRows));
         break;
       }
     case MENU_CONFIG_MODEM_MODEM_TO_MEM: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_MODEM_MEM_TO_SCREEN: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_MODEM_MEM_TO_MODEM: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_SLOTS: {
-        itemCount = copyMenuRows(menuConfigSlotsRows, sizeof(menuConfigSlotsRows));
+        itemCount = readMenuRows(menuConfigSlotsRows, sizeof(menuConfigSlotsRows));
         break;
       }
     case MENU_CONFIG_SLOTS_DEL_ONE: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotList, sizeof(menuSlotList));
         updateMenuSlotList();
         break;
       }
@@ -170,7 +171,7 @@ int MenuHandlerOld::getMenuRows(void) {
   return itemCount;
 }
 
-int MenuHandlerOld::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize) {
+int MenuHandlerNew::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize) {
   int itemCount = arraySize / LINE_LENGTH;
   for (int i = 0; i < itemCount; i++) {
     for (int j = 0; j < LINE_LENGTH; j++) {
@@ -180,7 +181,19 @@ int MenuHandlerOld::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySi
   return itemCount;
 }
 
-void MenuHandlerOld::updateMenuSlotList(void) {
+int MenuHandlerNew::readMenuRows(const byte menuRows[], int arraySize) {
+  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
+  
+  for (int i = 0; i < arraySize; i++) {
+    for (int j = 0; j < LINE_LENGTH; j++) {
+     currentMenuRows[i][j] = (char) ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
+     Serial.println(String(currentMenuRows[i][j]));
+    }
+  }
+  return arraySize;
+}
+
+void MenuHandlerNew::updateMenuSlotList(void) {
   for (int i = 0; i < CONFIG_SLOT_COUNT; i++) {
     ModemConfigSlot slot = ModemConfigSlot();
     slot.readMemory(i);
@@ -190,7 +203,7 @@ void MenuHandlerOld::updateMenuSlotList(void) {
   }
 }
 
-void MenuHandlerOld::showCurrentMenu(void) {
+void MenuHandlerNew::showCurrentMenu(void) {
   int itemCount = getMenuRows();
 
   display->clearDisplay();
