@@ -25,7 +25,7 @@
 
 // I2C_EEPROM_PAGESIZE must be multiple of 2 e.g. 16, 32 or 64
 // 24LC256 -> 64 bytes
-#define I2C_EEPROM_PAGESIZE 64
+#define I2C_EEPROM_PAGESIZE 16
 
 // TWI buffer needs max 2 bytes for address
 #define I2C_TWIBUFFERSIZE  30
@@ -34,7 +34,7 @@
 #define I2C_EEPROM_TIMEOUT  1000
 
 // comment next line to keep lib small
-#define I2C_EEPROM_EXTENDED
+//#define I2C_EEPROM_EXTENDED
 
 class I2C_eeprom
 {

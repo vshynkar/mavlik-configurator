@@ -137,6 +137,7 @@ int MenuHandler::getMenuRows(void) {
   switch (currentMenuCode) {
     case MENU_MAIN: {
         itemCount = copyMenuRows(menuMainRows, sizeof(menuMainRows));
+        readMenuRows(menuMainRowsNew, sizeof(menuMainRowsNew));
         break;
       }
     case MENU_CONFIG_MODEM: {
@@ -180,6 +181,25 @@ int MenuHandler::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize)
   }
   return itemCount;
 }
+
+int MenuHandler::readMenuRows(const byte menuRows[], int arraySize) {
+//  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
+//  ee->readByte(MENU_UA_BLOCK_ADDR);
+  uint8_t value;
+  Serial.println("MENU_UA_BLOCK_ADDR=" + String(MENU_UA_BLOCK_ADDR));
+  Serial.println("arraySize=" + String(arraySize));
+  
+//  for (int i = 0; i < arraySize; i++) {
+//    for (int j = 0; j < LINE_LENGTH; j++) {
+//     value = ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
+//     Serial.print(value, HEX);
+//     Serial.print(", ");
+//    }
+//    Serial.println();
+//  }
+  return arraySize;
+}
+
 
 void MenuHandler::updateMenuSlotList(void) {
   for (int i = 0; i < CONFIG_SLOT_COUNT; i++) {

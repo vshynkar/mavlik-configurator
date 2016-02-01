@@ -14,6 +14,21 @@
 #include "ScreenHandler.h"
 #include "I2C_eeprom.h"
 
+
+#define MEM_DATA_ADDR           0x14
+
+#define MENU_ENG_BLOCK_ADDR     0x00
+#define MENU_UA_BLOCK_ADDR      0x02
+#define CONFIG_BLOCK_ADDR       0x04
+#define MEM_STRUCTURE_VERSION   0x06
+#define RESERVED_2_ADDR         0x08
+#define RESERVED_3_ADDR         0x0A
+#define RESERVED_4_ADDR         0x0C
+#define RESERVED_5_ADDR         0x0E
+#define RESERVED_6_ADDR         0x10
+#define RESERVED_7_ADDR         0x12
+
+
 // this number is index in menuPossition array. So the value ust be incremental withous gaps.
 #define MENU_COUNT                        8
 #define MENU_MAIN                         1
@@ -35,6 +50,12 @@ const char menuMainRows[][LINE_LENGTH] = {
   {0xCB, 0xF0, 0xEF, 0xF6, 0xE9, 0xE1, 0x20, 0xEE, 0xF0, 0xE3, 0xE4, 0xEE, 0xDE, 0x20},    // Конфіг модема
   {0xD2, 0xE4, 0xEC, 0xF2, 0xE4, 0xF4, 0xEF, 0xE8, 0xEB, 0x20, 0xEc, 0xED, 0xFD, 0xF9},    // Секретний ключ
   {0xD0, 0xF2, 0xF0, 0xF6, 0xE9, 0xED, 0xE9, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20}     // Профілі
+};
+
+const byte menuMainRowsNew[] = {
+  0,    // Конфіг модема
+  1,    // Секретний ключ
+  2     // Профілі
 };
 
 const byte menuConfigModemMap[] =               {MENU_CONFIG_MODEM_MODEM_TO_MEM, SCR_CONFIG_MODEM_TO_SCREEN, MENU_CONFIG_MODEM_MEM_TO_MODEM, MENU_CONFIG_MODEM_MEM_TO_SCREEN};
@@ -80,6 +101,7 @@ class MenuHandler {
     int getMenuRows(void);            // set appropriate menu rows into 'currentMenuRows' array based on menu code from 'currentMenuCode' variable. Return number of rows in array.
     void changeCursor(void);
     int copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize);
+    int readMenuRows(const byte menuRows[], int arraySize);
     void updateMenuSlotList(void);
     Adafruit_PCD8544* display;
     ScreenHandler* screen;
