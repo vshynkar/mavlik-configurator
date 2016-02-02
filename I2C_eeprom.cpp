@@ -144,6 +144,7 @@ int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 {
     waitEEReady();
 
+
     Wire.beginTransmission(_deviceAddress);
 #if defined(ARDUINO) && ARDUINO >= 100
     Wire.write((int)(address >> 8));
@@ -166,6 +167,7 @@ int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 uint8_t I2C_eeprom::_ReadBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 {
     waitEEReady();
+//    Serial.println("debug label");
 
     Wire.beginTransmission(_deviceAddress);
 #if defined(ARDUINO) && ARDUINO >= 100

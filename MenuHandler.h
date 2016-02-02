@@ -103,6 +103,8 @@ class MenuHandler {
     int copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize);
     int readMenuRows(const byte menuRows[], int arraySize);
     void updateMenuSlotList(void);
+    void i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data );
+    byte i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress );
     Adafruit_PCD8544* display;
     ScreenHandler* screen;
     I2C_eeprom* ee;

@@ -183,20 +183,21 @@ int MenuHandler::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize)
 }
 
 int MenuHandler::readMenuRows(const byte menuRows[], int arraySize) {
-//  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
-//  ee->readByte(MENU_UA_BLOCK_ADDR);
+  //  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
+  //  ee->readByte(MENU_UA_BLOCK_ADDR);
+//  Serial.println(ee->readByte(MENU_UA_BLOCK_ADDR), HEX);
   uint8_t value;
   Serial.println("MENU_UA_BLOCK_ADDR=" + String(MENU_UA_BLOCK_ADDR));
   Serial.println("arraySize=" + String(arraySize));
-  
-//  for (int i = 0; i < arraySize; i++) {
-//    for (int j = 0; j < LINE_LENGTH; j++) {
-//     value = ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
-//     Serial.print(value, HEX);
-//     Serial.print(", ");
-//    }
-//    Serial.println();
-//  }
+
+  //  for (int i = 0; i < arraySize; i++) {
+  //    for (int j = 0; j < LINE_LENGTH; j++) {
+  //     value = ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
+  //     Serial.print(value, HEX);
+  //     Serial.print(", ");
+  //    }
+  //    Serial.println();
+  //  }
   return arraySize;
 }
 
@@ -231,5 +232,25 @@ void MenuHandler::showCurrentMenu(void) {
     }
   }
   display->display();
+}
+
+void MenuHandler::i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data ) {
+  int rdata = data;
+  Wire.beginTransmission(deviceaddress);
+  Wire.write((int)(eeaddress >> 8)); // MSB
+  Wire.write((int)(eeaddress & 0xFF)); // LSB
+  Wire.write(rdata);
+  Wire.endTransmission();
+}
+
+byte MenuHandler::i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress ) {
+  byte rdata = 0xFF;
+  Wire.beginTransmission(deviceaddress);
+  Wire.write((int)(eeaddress >> 8)); // MSB
+  Wire.write((int)(eeaddress & 0xFF)); // LSB
+  Wire.endTransmission();
+  Wire.requestFrom(deviceaddress, 1);
+  if (Wire.available()) rdata = Wire.read();
+  return rdata;
 }
 
