@@ -136,71 +136,58 @@ int MenuHandler::getMenuRows(void) {
   int itemCount = 0;
   switch (currentMenuCode) {
     case MENU_MAIN: {
-        itemCount = copyMenuRows(menuMainRows, sizeof(menuMainRows));
-        readMenuRows(menuMainRowsNew, sizeof(menuMainRowsNew));
+        itemCount = readMenuRows(menuMainRowsNew, sizeof(menuMainRowsNew));
         break;
       }
     case MENU_CONFIG_MODEM: {
-        itemCount = copyMenuRows(menuConfigModemRows, sizeof(menuConfigModemRows));
+        itemCount = readMenuRows(menuConfigModemRowsNew, sizeof(menuConfigModemRowsNew));
         break;
       }
     case MENU_CONFIG_MODEM_MODEM_TO_MEM: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotListNew, sizeof(menuSlotListNew));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_MODEM_MEM_TO_SCREEN: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotListNew, sizeof(menuSlotListNew));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_MODEM_MEM_TO_MODEM: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotListNew, sizeof(menuSlotListNew));
         updateMenuSlotList();
         break;
       }
     case MENU_CONFIG_SLOTS: {
-        itemCount = copyMenuRows(menuConfigSlotsRows, sizeof(menuConfigSlotsRows));
+        itemCount = readMenuRows(menuConfigSlotsRowsNew, sizeof(menuConfigSlotsRowsNew));
         break;
       }
     case MENU_CONFIG_SLOTS_DEL_ONE: {
-        itemCount = copyMenuRows(menuSlotList, sizeof(menuSlotList));
+        itemCount = readMenuRows(menuSlotListNew, sizeof(menuSlotListNew));
         updateMenuSlotList();
         break;
       }
-  }
-  return itemCount;
-}
-
-int MenuHandler::copyMenuRows(const char menuRows[][LINE_LENGTH], int arraySize) {
-  int itemCount = arraySize / LINE_LENGTH;
-  for (int i = 0; i < itemCount; i++) {
-    for (int j = 0; j < LINE_LENGTH; j++) {
-      currentMenuRows[i][j] = menuRows[i][j];
-    }
   }
   return itemCount;
 }
 
 int MenuHandler::readMenuRows(const byte menuRows[], int arraySize) {
-  //  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
-  //  ee->readByte(MENU_UA_BLOCK_ADDR);
-//  Serial.println(ee->readByte(MENU_UA_BLOCK_ADDR), HEX);
+  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
   uint8_t value;
-  Serial.println("MENU_UA_BLOCK_ADDR=" + String(MENU_UA_BLOCK_ADDR));
-  Serial.println("arraySize=" + String(arraySize));
+//  Serial.println("MENU_UA_BLOCK_ADDR=" + String(startAddr));
+//  Serial.println("arraySize=" + String(arraySize));
 
-  //  for (int i = 0; i < arraySize; i++) {
-  //    for (int j = 0; j < LINE_LENGTH; j++) {
-  //     value = ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
-  //     Serial.print(value, HEX);
-  //     Serial.print(", ");
-  //    }
-  //    Serial.println();
-  //  }
+  for (int i = 0; i < arraySize; i++) {
+    for (int j = 0; j < LINE_LENGTH; j++) {
+      value = ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
+      currentMenuRows[i][j] = value;
+//      Serial.print(value, HEX);
+//      Serial.print(", ");
+    }
+//    Serial.println();
+  }
   return arraySize;
 }
-
 
 void MenuHandler::updateMenuSlotList(void) {
   for (int i = 0; i < CONFIG_SLOT_COUNT; i++) {

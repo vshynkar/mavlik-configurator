@@ -41,29 +41,34 @@ ScreenHandler screenHandler = ScreenHandler(&display, &modem);
 MenuHandler menuHandler = MenuHandler(&display, &screenHandler, &i2cEeprom);
 Keypad keypad = Keypad(DATA_PIN, CLOCK_PIN, PLOAD_PIN);
 
-String initResponse;
-String atiResponse;
-int atiTime, usedTime, initTime;
+byte pressedButton;
 
 void setup() {
   initDisplay();
   Serial.begin(BOUND_RATE_57600);
-  attachInterrupt(INT_PIN - 2, getKeypadData, RISING);
   keypad.init();
   menuHandler.init();
+  attachInterrupt(INT_PIN - 2, getKeypadData, RISING);
 }
 
 void loop() {
   menuHandler.start();
+  if (pressedButton == BUTTON_UP || pressedButton == BUTTON_DOWN || pressedButton == BUTTON_ENTER || pressedButton == BUTTON_ESC) {
+    menuHandler.pressedKey(pressedButton);
+    pressedButton = BUTTON_NOP;
+//  } else {
+//    delay(20);
+  }
 }
 
 void getKeypadData() {
-  byte button = keypad.read();
-  if (button == BUTTON_UP || button == BUTTON_DOWN || button == BUTTON_ENTER || button == BUTTON_ESC) {
-    menuHandler.pressedKey(button);
-  } else {
-    delay(20);
-  }
+  pressedButton = keypad.read();
+//  byte button = keypad.read();
+//  if (button == BUTTON_UP || button == BUTTON_DOWN || button == BUTTON_ENTER || button == BUTTON_ESC) {
+//    menuHandler.pressedKey(button);
+//  } else {
+//    delay(20);
+//  }
 }
 
 void initDisplay() {
