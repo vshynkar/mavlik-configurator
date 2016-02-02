@@ -41,7 +41,7 @@ ScreenHandler screenHandler = ScreenHandler(&display, &modem);
 MenuHandler menuHandler = MenuHandler(&display, &screenHandler, &i2cEeprom);
 Keypad keypad = Keypad(DATA_PIN, CLOCK_PIN, PLOAD_PIN);
 
-byte pressedButton;
+volatile byte pressedButton;
 
 void setup() {
   initDisplay();
