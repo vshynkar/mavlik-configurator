@@ -172,19 +172,14 @@ int MenuHandler::getMenuRows(void) {
 }
 
 int MenuHandler::readMenuRows(const byte menuRows[], int arraySize) {
-  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
+  uint16_t startAddr = ee->readInt(MENU_EN_BLOCK_ADDR);
   uint8_t value;
-//  Serial.println("MENU_UA_BLOCK_ADDR=" + String(startAddr));
-//  Serial.println("arraySize=" + String(arraySize));
 
   for (int i = 0; i < arraySize; i++) {
     for (int j = 0; j < LINE_LENGTH; j++) {
       value = ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
       currentMenuRows[i][j] = value;
-//      Serial.print(value, HEX);
-//      Serial.print(", ");
     }
-//    Serial.println();
   }
   return arraySize;
 }

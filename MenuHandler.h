@@ -17,7 +17,7 @@
 
 #define MEM_DATA_ADDR           0x14
 
-#define MENU_ENG_BLOCK_ADDR     0x00
+#define MENU_EN_BLOCK_ADDR      0x00
 #define MENU_UA_BLOCK_ADDR      0x02
 #define CONFIG_BLOCK_ADDR       0x04
 #define MEM_STRUCTURE_VERSION   0x06
