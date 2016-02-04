@@ -30,7 +30,7 @@
 
 
 // this number is index in menuPossition array. So the value ust be incremental withous gaps.
-#define MENU_COUNT                        8
+#define MENU_COUNT                        11
 #define MENU_MAIN                         1
 #define MENU_CONFIG_MODEM                 2
 #define MENU_CONFIG_MODEM_MODEM_TO_MEM    3
@@ -39,46 +39,59 @@
 #define MENU_CONFIG_SLOTS                 6
 #define MENU_CONFIG_SLOTS_DEL_ONE         7
 #define MENU_SECRET_KEY                   8
+#define MENU_CONFIGURATIONS               9
+#define MENU_CONFIG_LANG                  10
+#define MENU_SELECT_LANG                  11
 
-#define LINE_LENGTH          14
-#define DISPLAY_ROWS         6
-#define MAX_MENU_DEPTH       20
+
+#define LINE_LENGTH                       14
+#define DISPLAY_ROWS                      6
+#define MAX_MENU_DEPTH                    20
+
+// message codes
+#define MSG_MODEM_CONFIG                  0
+#define MSG_SECRET_KEY                    1
+#define MSG_PROFILES                      2
+#define MSG_MODEM_TO_MEM                  3
+#define MSG_MODEM_TO_SCREEN               4
+#define MSG_MEM_TO_MODEM                  5
+#define MSG_MEM_TO_SCREEN                 6
+#define MSG_SLOT_1                        7
+#define MSG_SLOT_2                        8
+#define MSG_SLOT_3                        9
+#define MSG_SLOT_4                        10
+#define MSG_SLOT_5                        11
+#define MSG_SLOT_6                        12
+#define MSG_DELETE_ALL                    13
+#define MSG_DELETE_ONE                    14
+#define MSG_CONFIGURATIONS                15
+#define MSG_CONFIG_LANG                   16
+#define MSG_SERIAL_SPEED                  17
+#define MSG_LANGUAGE_UA                   18
+#define MSG_LANGUAGE_EN                   19
 
 // menu position is index in this array. It indicates what menu will be next.
-const byte menuMainMap[] =               {MENU_CONFIG_MODEM, MENU_CONFIG_MODEM, MENU_CONFIG_SLOTS};
-const byte menuMainRowsNew[] = {
-  0,    // Конфіг модема
-  1,    // Секретний ключ
-  2     // Профілі
-};
+const byte menuMainMap[] =                      {MENU_CONFIG_MODEM, MENU_CONFIG_MODEM, MENU_CONFIG_SLOTS, MENU_CONFIGURATIONS};
+const byte menuMainRows[] =                     {MSG_MODEM_CONFIG, MSG_SECRET_KEY, MSG_PROFILES, MSG_CONFIGURATIONS};
+
+const byte menuConfigMap[] =                    {MENU_SELECT_LANG, MENU_CONFIGURATIONS};
+const byte menuConfigRows[] =                   {MSG_CONFIG_LANG, MSG_SERIAL_SPEED};
+
+const byte menuConfigLangMap[] =                {MENU_CONFIGURATIONS, MENU_CONFIGURATIONS};
+const byte menuConfigLangRows[] =               {MSG_LANGUAGE_UA, MSG_LANGUAGE_EN};
 
 const byte menuConfigModemMap[] =               {MENU_CONFIG_MODEM_MODEM_TO_MEM, SCR_CONFIG_MODEM_TO_SCREEN, MENU_CONFIG_MODEM_MEM_TO_MODEM, MENU_CONFIG_MODEM_MEM_TO_SCREEN};
-const byte menuConfigModemRowsNew[] = {
-  3,    // Модем->Память
-  4,    // Модем->Екран
-  5,    // Память->Модем
-  6     // Память->Екран
-};
+const byte menuConfigModemRowsNew[] =           {MSG_MODEM_TO_MEM, MSG_MODEM_TO_SCREEN, MSG_MEM_TO_MODEM, MSG_MEM_TO_SCREEN};
 
-const byte menuSlotListNew[] = {
-  7,    // Профіль 1
-  8,    // Профіль 2
-  9,    // Профіль 3
-  10,   // Профіль 4
-  11,   // Профіль 5
-  12    // Профіль 6
-};
+const byte menuSlotListNew[] =                  {MSG_SLOT_1, MSG_SLOT_2, MSG_SLOT_3, MSG_SLOT_4, MSG_SLOT_5, MSG_SLOT_1};
 
 const byte menuConfigSlotsMap[] =               {SCR_CONFIG_SLOTS_DEL_ALL, MENU_CONFIG_SLOTS_DEL_ONE};
-const byte menuConfigSlotsRowsNew[] = {
-  13,    // Видалити усі
-  14     // Видалити один
-};
+const byte menuConfigSlotsRowsNew[] =           {MSG_DELETE_ALL, MSG_DELETE_ONE};
 
-const byte menuConfigModemModemToMemMap[] =    {SCR_CONFIG_MODEM_TO_MEM_1,  SCR_CONFIG_MODEM_TO_MEM_2,  SCR_CONFIG_MODEM_TO_MEM_3,  SCR_CONFIG_MODEM_TO_MEM_4,  SCR_CONFIG_MODEM_TO_MEM_5,  SCR_CONFIG_MODEM_TO_MEM_6};
-const byte menuConfigModemMemToScreenMap[] =   {SCR_CONFIG_MEM_TO_SCREEN_1, SCR_CONFIG_MEM_TO_SCREEN_2, SCR_CONFIG_MEM_TO_SCREEN_3, SCR_CONFIG_MEM_TO_SCREEN_4, SCR_CONFIG_MEM_TO_SCREEN_5, SCR_CONFIG_MEM_TO_SCREEN_6};
-const byte menuConfigModemMemToModemMap[] =    {SCR_CONFIG_MEM_TO_MODEM_1,  SCR_CONFIG_MEM_TO_MODEM_2,  SCR_CONFIG_MEM_TO_MODEM_3,  SCR_CONFIG_MEM_TO_MODEM_4,  SCR_CONFIG_MEM_TO_MODEM_5,  SCR_CONFIG_MEM_TO_MODEM_6};
-const byte menuConfigSlotsDelOneMap[] =        {SCR_CONFIG_SLOTS_DEL_ONE_1, SCR_CONFIG_SLOTS_DEL_ONE_2, SCR_CONFIG_SLOTS_DEL_ONE_3, SCR_CONFIG_SLOTS_DEL_ONE_4, SCR_CONFIG_SLOTS_DEL_ONE_5, SCR_CONFIG_SLOTS_DEL_ONE_6};
+const byte menuConfigModemModemToMemMap[] =     {SCR_CONFIG_MODEM_TO_MEM_1,  SCR_CONFIG_MODEM_TO_MEM_2,  SCR_CONFIG_MODEM_TO_MEM_3,  SCR_CONFIG_MODEM_TO_MEM_4,  SCR_CONFIG_MODEM_TO_MEM_5,  SCR_CONFIG_MODEM_TO_MEM_6};
+const byte menuConfigModemMemToScreenMap[] =    {SCR_CONFIG_MEM_TO_SCREEN_1, SCR_CONFIG_MEM_TO_SCREEN_2, SCR_CONFIG_MEM_TO_SCREEN_3, SCR_CONFIG_MEM_TO_SCREEN_4, SCR_CONFIG_MEM_TO_SCREEN_5, SCR_CONFIG_MEM_TO_SCREEN_6};
+const byte menuConfigModemMemToModemMap[] =     {SCR_CONFIG_MEM_TO_MODEM_1,  SCR_CONFIG_MEM_TO_MODEM_2,  SCR_CONFIG_MEM_TO_MODEM_3,  SCR_CONFIG_MEM_TO_MODEM_4,  SCR_CONFIG_MEM_TO_MODEM_5,  SCR_CONFIG_MEM_TO_MODEM_6};
+const byte menuConfigSlotsDelOneMap[] =         {SCR_CONFIG_SLOTS_DEL_ONE_1, SCR_CONFIG_SLOTS_DEL_ONE_2, SCR_CONFIG_SLOTS_DEL_ONE_3, SCR_CONFIG_SLOTS_DEL_ONE_4, SCR_CONFIG_SLOTS_DEL_ONE_5, SCR_CONFIG_SLOTS_DEL_ONE_6};
 
 
 class MenuHandler {

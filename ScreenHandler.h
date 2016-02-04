@@ -41,6 +41,7 @@
 #define SCR_CONFIG_SLOTS_DEL_ONE_4     125
 #define SCR_CONFIG_SLOTS_DEL_ONE_5     126
 #define SCR_CONFIG_SLOTS_DEL_ONE_6     127
+//#define SCR_CONFIGURATIONS             128
 
 #define LINE_LENGTH                    14
 

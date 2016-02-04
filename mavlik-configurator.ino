@@ -56,19 +56,11 @@ void loop() {
   if (pressedButton == BUTTON_UP || pressedButton == BUTTON_DOWN || pressedButton == BUTTON_ENTER || pressedButton == BUTTON_ESC) {
     menuHandler.pressedKey(pressedButton);
     pressedButton = BUTTON_NOP;
-//  } else {
-//    delay(20);
   }
 }
 
 void getKeypadData() {
   pressedButton = keypad.read();
-//  byte button = keypad.read();
-//  if (button == BUTTON_UP || button == BUTTON_DOWN || button == BUTTON_ENTER || button == BUTTON_ESC) {
-//    menuHandler.pressedKey(button);
-//  } else {
-//    delay(20);
-//  }
 }
 
 void initDisplay() {

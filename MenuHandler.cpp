@@ -126,6 +126,12 @@ byte MenuHandler::getNextMenu(void) {
     case MENU_CONFIG_SLOTS_DEL_ONE: {
         return menuConfigSlotsDelOneMap[poss];
       }
+    case MENU_CONFIGURATIONS: {
+        return menuConfigMap[poss];
+      }
+    case MENU_SELECT_LANG: {
+        return menuConfigLangMap[poss];
+      }
   }
 
   return MENU_MAIN;
@@ -136,7 +142,11 @@ int MenuHandler::getMenuRows(void) {
   int itemCount = 0;
   switch (currentMenuCode) {
     case MENU_MAIN: {
-        itemCount = readMenuRows(menuMainRowsNew, sizeof(menuMainRowsNew));
+        itemCount = readMenuRows(menuMainRows, sizeof(menuMainRows));
+        break;
+      }
+    case MENU_CONFIGURATIONS: {
+        itemCount = readMenuRows(menuConfigRows, sizeof(menuConfigRows));
         break;
       }
     case MENU_CONFIG_MODEM: {
@@ -167,11 +177,16 @@ int MenuHandler::getMenuRows(void) {
         updateMenuSlotList();
         break;
       }
+    case MENU_SELECT_LANG: {
+        itemCount = readMenuRows(menuConfigLangRows, sizeof(menuConfigLangRows));
+        break;
+      }
   }
   return itemCount;
 }
 
 int MenuHandler::readMenuRows(const byte menuRows[], int arraySize) {
+//  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
   uint16_t startAddr = ee->readInt(MENU_EN_BLOCK_ADDR);
   uint8_t value;
 
