@@ -3,9 +3,11 @@
 #include "MavlinkModem.h"
 #include "Keypad.h"
 
-ScreenHandler::ScreenHandler(Adafruit_PCD8544* d, MavlinkModem* m) {
+ScreenHandler::ScreenHandler(Adafruit_PCD8544* d, MavlinkModem* m, Configuration* conf) {
   display = d;
   modem = m;
+  configuration = conf;
+
   isDataCached = false;
   displayOffset = 0;
 }
@@ -126,9 +128,17 @@ void ScreenHandler::showSelectedScreen(byte screenCode, byte button) {
         break;
       }
     case SCR_CONFIG_SLOTS_DEL_ALL: {
-      showSrcSlotDelAll();
-      break;
-    }
+        showSrcSlotDelAll();
+        break;
+      }
+    case SCR_SELECT_UA_LANG: {
+        showSelectUaLang();
+        break;
+      }
+    case SCR_SELECT_EN_LANG: {
+        showSelectEnLang();
+        break;
+      }
   }
 }
 
@@ -143,7 +153,7 @@ void ScreenHandler::showSrcSlotDelAll(void) {
   for (int i = 0; i < 6; i++) {
     slot.deleteSlot(i);
   }
-  showScrMessage(message_3);  
+  showScrMessage(message_3);
 }
 
 void ScreenHandler::updateOffset(byte button, byte maxValue) {
@@ -180,11 +190,11 @@ void ScreenHandler::showSrcModemToMem(byte slotNumber) {
 void ScreenHandler::showSrcMemToModem(byte slotNumber) {
   if (!isDataCached) {
     showScrMessage(message_2);
-    
+
     ModemConfigSlot slot = ModemConfigSlot();
     slot.readMemory(slotNumber);
     slot.convertOut(modemConfig);
-    
+
     isDataCached = true;
   }
 
@@ -256,6 +266,16 @@ void ScreenHandler::showOnScreen(void) {
     printLine("MAX_WINDOW=", long(modemConfig[14]));
   }
   display->display();
+}
+
+void ScreenHandler::showSelectUaLang() {
+  configuration->setCurrentLangUa();
+  showScrMessage(message_1);
+}
+
+void ScreenHandler::showSelectEnLang() {
+  configuration->setCurrentLangEn();
+  showScrMessage(message_1);
 }
 
 void ScreenHandler::showScrMessage(const char msg[]) {

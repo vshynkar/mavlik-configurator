@@ -8,6 +8,7 @@
 #include "MenuHandler.h"
 #include "ScreenHandler.h"
 #include "I2C_eeprom.h"
+#include "Configuration.h"
 
 // LCD constants
 #define PIN_SCE   7
@@ -36,15 +37,17 @@ Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_DC, PIN_SCE, PIN_RST);
 
 //Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
 I2C_eeprom i2cEeprom = I2C_eeprom(0x50);
+Configuration configurationManager = Configuration(&i2cEeprom);
 MavlinkModem modem(&Serial);
-ScreenHandler screenHandler = ScreenHandler(&display, &modem);
-MenuHandler menuHandler = MenuHandler(&display, &screenHandler, &i2cEeprom);
+ScreenHandler screenHandler = ScreenHandler(&display, &modem, &configurationManager);
+MenuHandler menuHandler = MenuHandler(&display, &screenHandler, &configurationManager);
 Keypad keypad = Keypad(DATA_PIN, CLOCK_PIN, PLOAD_PIN);
 
 volatile byte pressedButton;
 
 void setup() {
   initDisplay();
+  configurationManager.init();
   Serial.begin(BOUND_RATE_57600);
   keypad.init();
   menuHandler.init();

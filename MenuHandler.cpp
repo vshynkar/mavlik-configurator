@@ -2,10 +2,11 @@
 #include "Keypad.h"
 #include "ModemConfigSlot.h"
 
-MenuHandler::MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr, I2C_eeprom* e) {
+MenuHandler::MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr, Configuration* conf) {
   display = d;
   screen = scr;
-  ee = e;
+  configuration = conf;
+
   isFirstRun = true;
   isScreenShowing = false;
   currentMenuCode = MENU_MAIN;
@@ -129,7 +130,7 @@ byte MenuHandler::getNextMenu(void) {
     case MENU_CONFIGURATIONS: {
         return menuConfigMap[poss];
       }
-    case MENU_SELECT_LANG: {
+    case MENU_CONFIG_LANG: {
         return menuConfigLangMap[poss];
       }
   }
@@ -177,7 +178,7 @@ int MenuHandler::getMenuRows(void) {
         updateMenuSlotList();
         break;
       }
-    case MENU_SELECT_LANG: {
+    case MENU_CONFIG_LANG: {
         itemCount = readMenuRows(menuConfigLangRows, sizeof(menuConfigLangRows));
         break;
       }
@@ -186,15 +187,8 @@ int MenuHandler::getMenuRows(void) {
 }
 
 int MenuHandler::readMenuRows(const byte menuRows[], int arraySize) {
-//  uint16_t startAddr = ee->readInt(MENU_UA_BLOCK_ADDR);
-  uint16_t startAddr = ee->readInt(MENU_EN_BLOCK_ADDR);
-  uint8_t value;
-
   for (int i = 0; i < arraySize; i++) {
-    for (int j = 0; j < LINE_LENGTH; j++) {
-      value = ee->readByte(startAddr + menuRows[i] * LINE_LENGTH + j);
-      currentMenuRows[i][j] = value;
-    }
+    configuration->readScreenMessage(menuRows[i], currentMenuRows[i], LINE_LENGTH);
   }
   return arraySize;
 }
@@ -229,25 +223,5 @@ void MenuHandler::showCurrentMenu(void) {
     }
   }
   display->display();
-}
-
-void MenuHandler::i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data ) {
-  int rdata = data;
-  Wire.beginTransmission(deviceaddress);
-  Wire.write((int)(eeaddress >> 8)); // MSB
-  Wire.write((int)(eeaddress & 0xFF)); // LSB
-  Wire.write(rdata);
-  Wire.endTransmission();
-}
-
-byte MenuHandler::i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress ) {
-  byte rdata = 0xFF;
-  Wire.beginTransmission(deviceaddress);
-  Wire.write((int)(eeaddress >> 8)); // MSB
-  Wire.write((int)(eeaddress & 0xFF)); // LSB
-  Wire.endTransmission();
-  Wire.requestFrom(deviceaddress, 1);
-  if (Wire.available()) rdata = Wire.read();
-  return rdata;
 }
 

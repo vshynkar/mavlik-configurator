@@ -12,6 +12,7 @@
 #include "Adafruit_PCD8544.h"
 #include "MavlinkModem.h"
 #include "ModemConfigSlot.h"
+#include "Configuration.h"
 
 #define SRC_START_INDEX                100
 #define SCR_CONFIG_MODEM_TO_MEM_1      101
@@ -41,7 +42,8 @@
 #define SCR_CONFIG_SLOTS_DEL_ONE_4     125
 #define SCR_CONFIG_SLOTS_DEL_ONE_5     126
 #define SCR_CONFIG_SLOTS_DEL_ONE_6     127
-//#define SCR_CONFIGURATIONS             128
+#define SCR_SELECT_UA_LANG             128
+#define SCR_SELECT_EN_LANG             129
 
 #define LINE_LENGTH                    14
 
@@ -51,7 +53,7 @@ const char message_3[LINE_LENGTH] = {0x20, 0x20, 0x20, 0xBF, 0xE8, 0xE3, 0xDE, 0
 
 class ScreenHandler {
   public:
-    ScreenHandler(Adafruit_PCD8544* d, MavlinkModem* m);
+    ScreenHandler(Adafruit_PCD8544* d, MavlinkModem* m, Configuration* conf);
     void showSelectedScreen(byte screenCode, byte button);
     void cleanData(void);
 
@@ -62,12 +64,15 @@ class ScreenHandler {
     void showSrcMemToScreen(byte slotNumber);
     void showSrcSlotDelOne(byte slotNumber);
     void showSrcSlotDelAll(void);
+    void showSelectUaLang(void);
+    void showSelectEnLang(void);
     void updateOffset(byte button, byte maxValue);
     void printLine(String label, long value);
     void showScrMessage(const char msg[]);
     void showOnScreen(void);
     Adafruit_PCD8544* display;
     MavlinkModem* modem;
+    Configuration* configuration;
     int modemConfig[15];
     boolean isDataCached;
     int displayOffset;

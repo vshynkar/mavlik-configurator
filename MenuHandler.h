@@ -12,21 +12,7 @@
 #include "Adafruit_GFX.h"
 #include "Adafruit_PCD8544.h"
 #include "ScreenHandler.h"
-#include "I2C_eeprom.h"
-
-
-#define MEM_DATA_ADDR           0x14
-
-#define MENU_EN_BLOCK_ADDR      0x00
-#define MENU_UA_BLOCK_ADDR      0x02
-#define CONFIG_BLOCK_ADDR       0x04
-#define MEM_STRUCTURE_VERSION   0x06
-#define RESERVED_2_ADDR         0x08
-#define RESERVED_3_ADDR         0x0A
-#define RESERVED_4_ADDR         0x0C
-#define RESERVED_5_ADDR         0x0E
-#define RESERVED_6_ADDR         0x10
-#define RESERVED_7_ADDR         0x12
+#include "Configuration.h"
 
 
 // this number is index in menuPossition array. So the value ust be incremental withous gaps.
@@ -74,16 +60,16 @@
 const byte menuMainMap[] =                      {MENU_CONFIG_MODEM, MENU_CONFIG_MODEM, MENU_CONFIG_SLOTS, MENU_CONFIGURATIONS};
 const byte menuMainRows[] =                     {MSG_MODEM_CONFIG, MSG_SECRET_KEY, MSG_PROFILES, MSG_CONFIGURATIONS};
 
-const byte menuConfigMap[] =                    {MENU_SELECT_LANG, MENU_CONFIGURATIONS};
+const byte menuConfigMap[] =                    {MENU_CONFIG_LANG, MENU_CONFIGURATIONS};
 const byte menuConfigRows[] =                   {MSG_CONFIG_LANG, MSG_SERIAL_SPEED};
 
-const byte menuConfigLangMap[] =                {MENU_CONFIGURATIONS, MENU_CONFIGURATIONS};
+const byte menuConfigLangMap[] =                {SCR_SELECT_UA_LANG, SCR_SELECT_EN_LANG};
 const byte menuConfigLangRows[] =               {MSG_LANGUAGE_UA, MSG_LANGUAGE_EN};
 
 const byte menuConfigModemMap[] =               {MENU_CONFIG_MODEM_MODEM_TO_MEM, SCR_CONFIG_MODEM_TO_SCREEN, MENU_CONFIG_MODEM_MEM_TO_MODEM, MENU_CONFIG_MODEM_MEM_TO_SCREEN};
 const byte menuConfigModemRowsNew[] =           {MSG_MODEM_TO_MEM, MSG_MODEM_TO_SCREEN, MSG_MEM_TO_MODEM, MSG_MEM_TO_SCREEN};
 
-const byte menuSlotListNew[] =                  {MSG_SLOT_1, MSG_SLOT_2, MSG_SLOT_3, MSG_SLOT_4, MSG_SLOT_5, MSG_SLOT_1};
+const byte menuSlotListNew[] =                  {MSG_SLOT_1, MSG_SLOT_2, MSG_SLOT_3, MSG_SLOT_4, MSG_SLOT_5, MSG_SLOT_6};
 
 const byte menuConfigSlotsMap[] =               {SCR_CONFIG_SLOTS_DEL_ALL, MENU_CONFIG_SLOTS_DEL_ONE};
 const byte menuConfigSlotsRowsNew[] =           {MSG_DELETE_ALL, MSG_DELETE_ONE};
@@ -96,7 +82,7 @@ const byte menuConfigSlotsDelOneMap[] =         {SCR_CONFIG_SLOTS_DEL_ONE_1, SCR
 
 class MenuHandler {
   public:
-    MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr, I2C_eeprom* e);
+    MenuHandler(Adafruit_PCD8544* d, ScreenHandler* scr, Configuration* conf);
     void pressedKey(byte button);
     void start(void);
     void init(void);
@@ -109,11 +95,9 @@ class MenuHandler {
     void changeCursor(void);
     int readMenuRows(const byte menuRows[], int arraySize);
     void updateMenuSlotList(void);
-    void i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data );
-    byte i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress );
     Adafruit_PCD8544* display;
     ScreenHandler* screen;
-    I2C_eeprom* ee;
+    Configuration* configuration;
     boolean isFirstRun;
     boolean isScreenShowing;
     byte currentMenuCode;
