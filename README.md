@@ -25,11 +25,12 @@ Features:
 * Ukrainian user interface;
 
 Secon development phase, items TODO:
-* use hardware SPI to communicate with nokia display;
-* create custom keypad using input shift register 74HC165 to save arduino pins. Use interruptions for key events;
-* add ability to configure the device. Save configurations into EEPROM;
-* add English user interface and ability to swith between Ukrainian and English. Save text messages into external EEPROM;
-* use special logic level converter chip instead of voltage divitor based on resistors for nokia display;
+* use hardware SPI to communicate with nokia display (done);
+* create custom keypad using input shift register 74HC165 to save arduino pins. Use interruptions for key events (done);
+* add ability to configure the device. Save configurations into EEPROM (added serial port speed select);
+* add English user interface and ability to swith between Ukrainian and English. Save text messages into external EEPROM (done);
+* use special logic level converter chip instead of voltage divitor based on resistors for nokia display (not needed);
+* use 5V to 3.3V converter for nokia display;
 
 LCD connector pins:
 
