@@ -16,7 +16,7 @@
 
 
 // this number is index in menuPossition array. So the value ust be incremental withous gaps.
-#define MENU_COUNT                        11
+#define MENU_COUNT                        12
 #define MENU_MAIN                         1
 #define MENU_CONFIG_MODEM                 2
 #define MENU_CONFIG_MODEM_MODEM_TO_MEM    3
@@ -27,7 +27,7 @@
 #define MENU_SECRET_KEY                   8
 #define MENU_CONFIGURATIONS               9
 #define MENU_CONFIG_LANG                  10
-#define MENU_SELECT_LANG                  11
+#define MENU_CONFIG_SPEED                 11
 
 
 #define LINE_LENGTH                       14
@@ -55,16 +55,25 @@
 #define MSG_SERIAL_SPEED                  17
 #define MSG_LANGUAGE_UA                   18
 #define MSG_LANGUAGE_EN                   19
+#define MSG_19200                         20
+#define MSG_28800                         21
+#define MSG_31250                         22
+#define MSG_38400                         23
+#define MSG_57600                         24
+#define MSG_115200                        25
 
 // menu position is index in this array. It indicates what menu will be next.
 const byte menuMainMap[] =                      {MENU_CONFIG_MODEM, MENU_CONFIG_MODEM, MENU_CONFIG_SLOTS, MENU_CONFIGURATIONS};
 const byte menuMainRows[] =                     {MSG_MODEM_CONFIG, MSG_SECRET_KEY, MSG_PROFILES, MSG_CONFIGURATIONS};
 
-const byte menuConfigMap[] =                    {MENU_CONFIG_LANG, MENU_CONFIGURATIONS};
+const byte menuConfigMap[] =                    {MENU_CONFIG_LANG, MENU_CONFIG_SPEED};
 const byte menuConfigRows[] =                   {MSG_CONFIG_LANG, MSG_SERIAL_SPEED};
 
 const byte menuConfigLangMap[] =                {SCR_SELECT_UA_LANG, SCR_SELECT_EN_LANG};
 const byte menuConfigLangRows[] =               {MSG_LANGUAGE_UA, MSG_LANGUAGE_EN};
+
+const byte menuConfigSerialSpeedMap[] =         {SCR_SET_SERIAL_19200, SCR_SET_SERIAL_28800, SCR_SET_SERIAL_31250, SCR_SET_SERIAL_38400, SCR_SET_SERIAL_57600, SCR_SET_SERIAL_115200};
+const byte menuConfigSerialSpeedRows[] =        {MSG_19200, MSG_28800, MSG_31250, MSG_38400, MSG_57600, MSG_115200};
 
 const byte menuConfigModemMap[] =               {MENU_CONFIG_MODEM_MODEM_TO_MEM, SCR_CONFIG_MODEM_TO_SCREEN, MENU_CONFIG_MODEM_MEM_TO_MODEM, MENU_CONFIG_MODEM_MEM_TO_SCREEN};
 const byte menuConfigModemRowsNew[] =           {MSG_MODEM_TO_MEM, MSG_MODEM_TO_SCREEN, MSG_MEM_TO_MODEM, MSG_MEM_TO_SCREEN};

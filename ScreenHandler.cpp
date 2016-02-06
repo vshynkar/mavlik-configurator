@@ -139,13 +139,37 @@ void ScreenHandler::showSelectedScreen(byte screenCode, byte button) {
         showSelectEnLang();
         break;
       }
+    case SCR_SET_SERIAL_19200: {
+        showSelectSerialSpeed(19200);
+        break;
+      }
+    case SCR_SET_SERIAL_28800: {
+        showSelectSerialSpeed(28800);
+        break;
+      }
+    case SCR_SET_SERIAL_31250: {
+        showSelectSerialSpeed(31250);
+        break;
+      }
+    case SCR_SET_SERIAL_38400: {
+        showSelectSerialSpeed(38400);
+        break;
+      }
+    case SCR_SET_SERIAL_57600: {
+        showSelectSerialSpeed(57600);
+        break;
+      }
+    case SCR_SET_SERIAL_115200: {
+        showSelectSerialSpeed(115200);
+        break;
+      }
   }
 }
 
 void ScreenHandler::showSrcSlotDelOne(byte slotNumber) {
   ModemConfigSlot slot = ModemConfigSlot();
   slot.deleteSlot(slotNumber);
-  showScrMessage(message_3);
+  showScrMessage(MSG_DELETED);
 }
 
 void ScreenHandler::showSrcSlotDelAll(void) {
@@ -153,7 +177,7 @@ void ScreenHandler::showSrcSlotDelAll(void) {
   for (int i = 0; i < 6; i++) {
     slot.deleteSlot(i);
   }
-  showScrMessage(message_3);
+  showScrMessage(MSG_DELETED);
 }
 
 void ScreenHandler::updateOffset(byte button, byte maxValue) {
@@ -174,7 +198,7 @@ void ScreenHandler::updateOffset(byte button, byte maxValue) {
 
 void ScreenHandler::showSrcModemToMem(byte slotNumber) {
   if (!isDataCached) {
-    showScrMessage(message_2);
+    showScrMessage(MSG_READING);
     modem->readAtsAll(modemConfig);
     isDataCached = true;
   }
@@ -184,12 +208,12 @@ void ScreenHandler::showSrcModemToMem(byte slotNumber) {
   bitWrite(slot.statusFlag, CONFIG_BIT_SLOT_USED_MASK, 1);
   slot.writeMemory(slotNumber);
 
-  showScrMessage(message_1);
+  showScrMessage(MSG_SAVED);
 }
 
 void ScreenHandler::showSrcMemToModem(byte slotNumber) {
   if (!isDataCached) {
-    showScrMessage(message_2);
+    showScrMessage(MSG_READING);
 
     ModemConfigSlot slot = ModemConfigSlot();
     slot.readMemory(slotNumber);
@@ -199,12 +223,12 @@ void ScreenHandler::showSrcMemToModem(byte slotNumber) {
   }
 
   modem->writeAtsAll(modemConfig);
-  showScrMessage(message_1);
+  showScrMessage(MSG_SAVED);
 }
 
 void ScreenHandler::showSrcModemToScreen(void) {
   if (!isDataCached) {
-    showScrMessage(message_2);
+    showScrMessage(MSG_READING);
     modem->readAtsAll(modemConfig);
     isDataCached = true;
   }
@@ -213,7 +237,7 @@ void ScreenHandler::showSrcModemToScreen(void) {
 
 void ScreenHandler::showSrcMemToScreen(byte slotNumber) {
   if (!isDataCached) {
-    showScrMessage(message_2);
+    showScrMessage(MSG_READING);
 
     ModemConfigSlot slot = ModemConfigSlot();
     slot.readMemory(slotNumber);
@@ -270,15 +294,23 @@ void ScreenHandler::showOnScreen(void) {
 
 void ScreenHandler::showSelectUaLang() {
   configuration->setCurrentLangUa();
-  showScrMessage(message_1);
+  showScrMessage(MSG_SAVED);
 }
 
 void ScreenHandler::showSelectEnLang() {
   configuration->setCurrentLangEn();
-  showScrMessage(message_1);
+  showScrMessage(MSG_SAVED);
 }
 
-void ScreenHandler::showScrMessage(const char msg[]) {
+void ScreenHandler::showSelectSerialSpeed(uint32_t serialSpeed) {
+  configuration->setCurrentSerialSpeed(serialSpeed);
+  showScrMessage(MSG_SAVED);
+}
+
+void ScreenHandler::showScrMessage(byte messageCode) {
+  char bufferArray[LINE_LENGTH];
+  configuration->readScreenMessage(messageCode, bufferArray, LINE_LENGTH);
+
   display->clearDisplay();
   display->setTextSize(1);
   display->setCursor(0, 0);
@@ -287,7 +319,7 @@ void ScreenHandler::showScrMessage(const char msg[]) {
   display->println();
   display->println();
   for (int i = 0; i < LINE_LENGTH; i++) {
-    display->print(msg[i]);
+    display->print(bufferArray[i]);
   }
 
   display->display();

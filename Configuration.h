@@ -21,6 +21,7 @@
 #define RESERVED_7_ADDR         0x12
 
 #define LANGUAGE_ADDR_OFFSET    0x00
+#define SERIAL_SPEED_OFFSET     0x02
 
 
 
@@ -32,12 +33,14 @@ class Configuration {
     uint16_t memoryStructureVersion;
   
     uint16_t currentLanguageAddr;
+    uint32_t serialSpeed;
 
     Configuration(I2C_eeprom* e);
     void init(void);
     void readScreenMessage(byte messageCode, char bufferArray[], byte count);
     void setCurrentLangUa(void);
     void setCurrentLangEn(void);
+    void setCurrentSerialSpeed(uint32_t spd);
 
   private:
     I2C_eeprom* ee;

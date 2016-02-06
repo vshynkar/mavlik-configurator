@@ -6,8 +6,7 @@
 
 #include "MavlinkModem.h"
 
-MavlinkModem::MavlinkModem(HardwareSerial *s) {
-  serial = s;
+MavlinkModem::MavlinkModem() {
 }
 
 bool MavlinkModem::startCmdMode(void) {
@@ -97,7 +96,7 @@ int MavlinkModem::ats(int number) {
     value.replace("\r\n", "");
 
     if (number == 8 || number == 9) {
-    char tarray[10];
+      char tarray[10];
       value.toCharArray(tarray, sizeof(tarray));
       long lValue = atol(tarray);
       result = lValue / 1000;
@@ -114,7 +113,7 @@ void MavlinkModem::ats(int number, int p_value) {
   long regValue;
   if (startCmdMode()) {
     if (number == 8 || number == 9) {
-      regValue = long(p_value) *1000;
+      regValue = long(p_value) * 1000;
     } else {
       regValue = p_value;
     }
@@ -136,12 +135,12 @@ void MavlinkModem::readAtsAll(int rows[]) {
       value.replace("\r\n", "");
 
       if (i == 8 || i == 9) {
-      char tarray[10];
+        char tarray[10];
         value.toCharArray(tarray, sizeof(tarray));
         long lValue = atol(tarray);
-        rows[i-1] = lValue / 1000;
+        rows[i - 1] = lValue / 1000;
       } else {
-        rows[i-1] = value.toInt();
+        rows[i - 1] = value.toInt();
       }
     }
     stopCmdMode();
@@ -154,9 +153,9 @@ void MavlinkModem::writeAtsAll(int rows[]) {
     long value;
     for (int i = 1; i < 16; i++) {
       if (i == 8 || i == 9) {
-        value = long(rows[i-1]) * 1000;
+        value = long(rows[i - 1]) * 1000;
       } else {
-        value = long(rows[i-1]);
+        value = long(rows[i - 1]);
       }
       cmd = "ATS" + String(i) + "=" + value + "\r";
       runCmd(cmd, ATI_DELAY, false);

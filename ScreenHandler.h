@@ -44,12 +44,18 @@
 #define SCR_CONFIG_SLOTS_DEL_ONE_6     127
 #define SCR_SELECT_UA_LANG             128
 #define SCR_SELECT_EN_LANG             129
+#define SCR_SET_SERIAL_19200           130
+#define SCR_SET_SERIAL_28800           131
+#define SCR_SET_SERIAL_31250           132
+#define SCR_SET_SERIAL_38400           133
+#define SCR_SET_SERIAL_57600           134
+#define SCR_SET_SERIAL_115200          135
 
 #define LINE_LENGTH                    14
 
-const char message_1[LINE_LENGTH] = {0x20, 0x20, 0xC6, 0xDF, 0xE4, 0xF2, 0xE4, 0xE6, 0xE4, 0xEF, 0xF0, '!',   0x20, 0x20};    // Збережено
-const char message_2[LINE_LENGTH] = {0x20, 0x20, 0xC6, 0xF9, 0xE8, 0xF4, 0xF5, 0xE0, 0xDE, 0xEF, 0xEF, 0xFE,  0x20, 0x20};    // Зчитування
-const char message_3[LINE_LENGTH] = {0x20, 0x20, 0x20, 0xBF, 0xE8, 0xE3, 0xDE, 0xED, 0xE4, 0xEF, 0xF0, 0x20,  0x20, 0x20};    // Видалено
+#define MSG_SAVED                      26
+#define MSG_READING                    27
+#define MSG_DELETED                    28
 
 class ScreenHandler {
   public:
@@ -66,9 +72,10 @@ class ScreenHandler {
     void showSrcSlotDelAll(void);
     void showSelectUaLang(void);
     void showSelectEnLang(void);
+    void showSelectSerialSpeed(uint32_t serialSpeed);
     void updateOffset(byte button, byte maxValue);
     void printLine(String label, long value);
-    void showScrMessage(const char msg[]);
+    void showScrMessage(byte messageCode);
     void showOnScreen(void);
     Adafruit_PCD8544* display;
     MavlinkModem* modem;

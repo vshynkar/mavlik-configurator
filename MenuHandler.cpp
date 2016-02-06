@@ -133,6 +133,9 @@ byte MenuHandler::getNextMenu(void) {
     case MENU_CONFIG_LANG: {
         return menuConfigLangMap[poss];
       }
+    case MENU_CONFIG_SPEED: {
+        return menuConfigSerialSpeedMap[poss];
+      }
   }
 
   return MENU_MAIN;
@@ -180,6 +183,10 @@ int MenuHandler::getMenuRows(void) {
       }
     case MENU_CONFIG_LANG: {
         itemCount = readMenuRows(menuConfigLangRows, sizeof(menuConfigLangRows));
+        break;
+      }
+    case MENU_CONFIG_SPEED: {
+        itemCount = readMenuRows(menuConfigSerialSpeedRows, sizeof(menuConfigSerialSpeedRows));
         break;
       }
   }

@@ -11,6 +11,7 @@ void Configuration::init(void) {
   memoryStructureVersion = ee->readInt(MEM_STRUCTURE_VERSION);
 
   currentLanguageAddr = ee->readInt(configBlockAddr + LANGUAGE_ADDR_OFFSET);
+  serialSpeed = long(ee->readInt(configBlockAddr + SERIAL_SPEED_OFFSET)) * 10;
 }
 
 void Configuration::readScreenMessage(byte messageCode, char bufferArray[], byte count) {
@@ -18,7 +19,7 @@ void Configuration::readScreenMessage(byte messageCode, char bufferArray[], byte
   uint16_t startAddr = currentLanguageAddr;
   for (int i = 0; i < count; i++) {
     value = ee->readByte(startAddr + messageCode * count + i);
-    bufferArray[i]= (char) value;
+    bufferArray[i] = (char) value;
   }
 }
 
@@ -31,3 +32,9 @@ void Configuration::setCurrentLangEn(void) {
   currentLanguageAddr = englishMenuBlockAddr;
   ee->writeInt(configBlockAddr + LANGUAGE_ADDR_OFFSET, currentLanguageAddr);
 }
+
+void Configuration::setCurrentSerialSpeed(uint32_t spd) {
+  serialSpeed = spd;
+  ee->writeInt(configBlockAddr + SERIAL_SPEED_OFFSET, int(serialSpeed / 10));
+}
+

@@ -20,7 +20,7 @@
 
 class MavlinkModem {
   public:
-    MavlinkModem(HardwareSerial *s);
+    MavlinkModem();
     unsigned int getOperationUsedTime(void);
 
     String ati(void);
@@ -37,7 +37,6 @@ class MavlinkModem {
     void resetToDefault(void);
 
   private:
-    HardwareSerial* serial;
     unsigned int operationUsedTime;
     
     bool startCmdMode(void);

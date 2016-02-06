@@ -10,6 +10,8 @@
 #include "I2C_eeprom.h"
 #include "Configuration.h"
 
+#define EEPROM_ADDRESS    0x50
+
 // LCD constants
 #define PIN_SCE   7
 #define PIN_RST   8
@@ -33,12 +35,15 @@
 // Adafruit_PCD8544 display = Adafruit_PCD8544(5, 4, 3);
 // Note with hardware SPI MISO and SS pins aren't used but will still be read
 // and written to during SPI transfer.  Be careful sharing these pins!
+//Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
+
 Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_DC, PIN_SCE, PIN_RST);
 
-//Adafruit_PCD8544 display = Adafruit_PCD8544(PIN_SCLK, PIN_MOSI, PIN_DC, PIN_SCE, PIN_RST);
-I2C_eeprom i2cEeprom = I2C_eeprom(0x50);
+
+I2C_eeprom i2cEeprom = I2C_eeprom(EEPROM_ADDRESS);
 Configuration configurationManager = Configuration(&i2cEeprom);
-MavlinkModem modem(&Serial);
+//MavlinkModem modem(&Serial);
+MavlinkModem modem = MavlinkModem();
 ScreenHandler screenHandler = ScreenHandler(&display, &modem, &configurationManager);
 MenuHandler menuHandler = MenuHandler(&display, &screenHandler, &configurationManager);
 Keypad keypad = Keypad(DATA_PIN, CLOCK_PIN, PLOAD_PIN);
@@ -48,7 +53,7 @@ volatile byte pressedButton;
 void setup() {
   initDisplay();
   configurationManager.init();
-  Serial.begin(BOUND_RATE_57600);
+  Serial.begin(configurationManager.serialSpeed);
   keypad.init();
   menuHandler.init();
   attachInterrupt(INT_PIN - 2, getKeypadData, RISING);
