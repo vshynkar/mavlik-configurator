@@ -31,6 +31,7 @@ Secon development phase, items TODO:
 * add English user interface and ability to swith between Ukrainian and English. Save text messages into external EEPROM (done);
 * use special logic level converter chip instead of voltage divitor based on resistors for nokia display (not needed);
 * use 5V to 3.3V converter for nokia display;
+* save memory slots into external eeprom;
 
 LCD connector pins:
 
