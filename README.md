@@ -14,7 +14,7 @@ Device prototype
 ![alt tag](https://github.com/vshynkar/mavlik-configurator/blob/master/image/maket.png)
 
 
-
+Building an Arduino on a Breadboard  https://www.arduino.cc/en/Main/Standalone
 
 
 
