@@ -11,7 +11,7 @@ Copied and customized next projects' code to add support of Ukrainian language:
 
 Device prototype
 
-![alt tag](https://github.com/vshynkar/mavlik-configurator/blob/master/maket.png)
+![alt tag](https://github.com/vshynkar/mavlik-configurator/blob/master/image/maket.png)
 
 
 
