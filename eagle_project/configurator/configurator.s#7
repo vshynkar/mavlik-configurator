@@ -1961,8 +1961,8 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <parts>
 <part name="U1" library="SparkFun-DigitalIC" deviceset="ATMEGA328P_PDIP" device=""/>
 <part name="Y1" library="SparkFun-FreqCtrl" deviceset="CRYSTAL" device="HC49US" value="16MHz"/>
-<part name="C1" library="capacitor-wima" deviceset="C" device="5/3"/>
-<part name="C2" library="capacitor-wima" deviceset="C" device="5/3"/>
+<part name="C1" library="capacitor-wima" deviceset="C" device="5/3" value="22pF"/>
+<part name="C2" library="capacitor-wima" deviceset="C" device="5/3" value="22pF"/>
 <part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 </parts>
 <sheets>

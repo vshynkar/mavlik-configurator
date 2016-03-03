@@ -2277,121 +2277,6 @@ Based on the following sources:&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
-<library name="lph-7366">
-<description>&lt;b&gt;LPH-7366: PCD8544-based Nokia 5110 monochrome LCD display&lt;/b&gt;
-&lt;p&gt;&lt;b&gt;Doublecheck before using!&lt;/b&gt;&lt;/p&gt;</description>
-<packages>
-<package name="LPH-7366">
-<wire x1="20" y1="19" x2="20" y2="-16" width="0.127" layer="21"/>
-<wire x1="-20" y1="19" x2="-6" y2="19" width="0.127" layer="21"/>
-<wire x1="-6" y1="19" x2="6" y2="19" width="0.127" layer="21"/>
-<wire x1="6" y1="19" x2="20" y2="19" width="0.127" layer="21"/>
-<wire x1="-20" y1="19" x2="-20" y2="-16" width="0.127" layer="21"/>
-<wire x1="-20" y1="-16" x2="20" y2="-16" width="0.127" layer="21"/>
-<wire x1="-6" y1="19" x2="-6" y2="14" width="0.127" layer="21"/>
-<wire x1="-6" y1="14" x2="6" y2="14" width="0.127" layer="21"/>
-<wire x1="6" y1="14" x2="6" y2="19" width="0.127" layer="21"/>
-<wire x1="-19.9" y1="18.9" x2="-19.9" y2="15.1" width="0.3" layer="21"/>
-<wire x1="-19.9" y1="-1.1" x2="-19.9" y2="-4.9" width="0.3" layer="21"/>
-<wire x1="19.9" y1="-1" x2="19.9" y2="-4.8" width="0.3" layer="21"/>
-<wire x1="19.9" y1="18.9" x2="19.9" y2="15.1" width="0.3" layer="21"/>
-<wire x1="18" y1="-13" x2="18" y2="11" width="0.3" layer="21"/>
-<wire x1="17" y1="12" x2="-17" y2="12" width="0.3" layer="21"/>
-<wire x1="-18" y1="11" x2="-18" y2="-13" width="0.3" layer="21"/>
-<wire x1="-18" y1="-13" x2="-17" y2="-14" width="0.3" layer="21" curve="90"/>
-<wire x1="-17" y1="-14" x2="17" y2="-14" width="0.3" layer="21"/>
-<wire x1="17" y1="-14" x2="18" y2="-13" width="0.3" layer="21" curve="90"/>
-<wire x1="17" y1="12" x2="18" y2="11" width="0.3" layer="21" curve="-90"/>
-<wire x1="-17" y1="12" x2="-18" y2="11" width="0.3" layer="21" curve="90"/>
-<wire x1="-19.5" y1="-5.75" x2="-18.5" y2="-5.75" width="0.05" layer="51"/>
-<wire x1="-18.5" y1="-5.75" x2="-18.5" y2="-8.25" width="0.05" layer="51"/>
-<wire x1="-18.5" y1="-8.25" x2="-19.5" y2="-8.25" width="0.05" layer="51"/>
-<wire x1="-19.5" y1="-8.25" x2="-19.5" y2="-5.75" width="0.05" layer="51"/>
-<wire x1="-19.5" y1="7.25" x2="-18.5" y2="7.25" width="0.05" layer="51"/>
-<wire x1="-18.5" y1="7.25" x2="-18.5" y2="4.75" width="0.05" layer="51"/>
-<wire x1="-18.5" y1="4.75" x2="-19.5" y2="4.75" width="0.05" layer="51"/>
-<wire x1="-19.5" y1="4.75" x2="-19.5" y2="7.25" width="0.05" layer="51"/>
-<wire x1="-19.5" y1="2.25" x2="-18.5" y2="2.25" width="0.05" layer="51"/>
-<wire x1="-18.5" y1="2.25" x2="-18.5" y2="-0.25" width="0.05" layer="51"/>
-<wire x1="-18.5" y1="-0.25" x2="-19.5" y2="-0.25" width="0.05" layer="51"/>
-<wire x1="-19.5" y1="-0.25" x2="-19.5" y2="2.25" width="0.05" layer="51"/>
-<wire x1="18.5" y1="-5.75" x2="19.5" y2="-5.75" width="0.05" layer="51"/>
-<wire x1="19.5" y1="-5.75" x2="19.5" y2="-8.25" width="0.05" layer="51"/>
-<wire x1="19.5" y1="-8.25" x2="18.5" y2="-8.25" width="0.05" layer="51"/>
-<wire x1="18.5" y1="-8.25" x2="18.5" y2="-5.75" width="0.05" layer="51"/>
-<wire x1="18.5" y1="2.25" x2="19.5" y2="2.25" width="0.05" layer="51"/>
-<wire x1="19.5" y1="2.25" x2="19.5" y2="-0.25" width="0.05" layer="51"/>
-<wire x1="19.5" y1="-0.25" x2="18.5" y2="-0.25" width="0.05" layer="51"/>
-<wire x1="18.5" y1="-0.25" x2="18.5" y2="2.25" width="0.05" layer="51"/>
-<wire x1="18.5" y1="7.25" x2="19.5" y2="7.25" width="0.05" layer="51"/>
-<wire x1="19.5" y1="7.25" x2="19.5" y2="4.75" width="0.05" layer="51"/>
-<wire x1="19.5" y1="4.75" x2="18.5" y2="4.75" width="0.05" layer="51"/>
-<wire x1="18.5" y1="4.75" x2="18.5" y2="7.25" width="0.05" layer="51"/>
-<smd name="4" x="1" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="3" x="2" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="2" x="3" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="1" x="4" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="9" x="-4" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="5" x="0" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="6" x="-1" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="7" x="-2" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<smd name="8" x="-3" y="17" dx="4" dy="0.75" layer="1" rot="R90"/>
-<text x="-20.32" y="19.05" size="1.27" layer="25">&gt;NAME</text>
-<text x="-20.32" y="-17.78" size="1.27" layer="27">&gt;VALUE</text>
-<hole x="-17" y="13" drill="1.5"/>
-<hole x="17" y="-12.5" drill="1.5"/>
-</package>
-</packages>
-<symbols>
-<symbol name="LPH-7366">
-<wire x1="-12.7" y1="20.32" x2="-12.7" y2="-20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="-20.32" x2="7.62" y2="-20.32" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-20.32" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="7.62" y1="20.32" x2="-12.7" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="17.78" x2="-2.54" y2="-17.78" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-17.78" x2="5.08" y2="-17.78" width="0.254" layer="94"/>
-<wire x1="5.08" y1="-17.78" x2="5.08" y2="17.78" width="0.254" layer="94"/>
-<wire x1="5.08" y1="17.78" x2="-2.54" y2="17.78" width="0.254" layer="94"/>
-<text x="2.54" y="-2.54" size="1.27" layer="94" rot="R90">LPH-7366</text>
-<text x="-12.7" y="-22.86" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-12.7" y="22.86" size="1.778" layer="95" rot="MR180">&gt;NAME</text>
-<pin name="VDD" x="-17.78" y="-5.08" length="middle" direction="pwr"/>
-<pin name="SCLK" x="-17.78" y="15.24" length="middle" direction="in"/>
-<pin name="SDIN" x="-17.78" y="17.78" length="middle" direction="in"/>
-<pin name="D/C" x="-17.78" y="12.7" length="middle" direction="in"/>
-<pin name="/SCE" x="-17.78" y="10.16" length="middle" direction="in" function="dot"/>
-<pin name="OSC" x="-17.78" y="0" length="middle" direction="pas"/>
-<pin name="GND" x="-17.78" y="-17.78" length="middle" direction="pwr"/>
-<pin name="VOUT" x="-17.78" y="-10.16" length="middle" direction="pas"/>
-<pin name="/RES" x="-17.78" y="5.08" length="middle" direction="in" function="dot"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="LPH-7366" prefix="LCD">
-<gates>
-<gate name="G$1" symbol="LPH-7366" x="-7.62" y="-2.54"/>
-</gates>
-<devices>
-<device name="" package="LPH-7366">
-<connects>
-<connect gate="G$1" pin="/RES" pad="9"/>
-<connect gate="G$1" pin="/SCE" pad="5"/>
-<connect gate="G$1" pin="D/C" pad="4"/>
-<connect gate="G$1" pin="GND" pad="7"/>
-<connect gate="G$1" pin="OSC" pad="6"/>
-<connect gate="G$1" pin="SCLK" pad="2"/>
-<connect gate="G$1" pin="SDIN" pad="3"/>
-<connect gate="G$1" pin="VDD" pad="1"/>
-<connect gate="G$1" pin="VOUT" pad="8"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="Seeed-OPL-ic">
 <packages>
 <package name="SOT-223">
@@ -2464,6 +2349,74 @@ Based on the following sources:&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
+<library name="personal">
+<packages>
+<package name="NOKIA_5110">
+<hole x="-16.51" y="-3.81" drill="0.6"/>
+<hole x="-15.24" y="-3.81" drill="0.6"/>
+<hole x="-13.97" y="-3.81" drill="0.6"/>
+<hole x="-12.7" y="-3.81" drill="0.6"/>
+<hole x="-11.43" y="-3.81" drill="0.6"/>
+<hole x="-10.16" y="-3.81" drill="0.6"/>
+<hole x="-8.89" y="-3.81" drill="0.6"/>
+<hole x="-7.62" y="-3.81" drill="0.6"/>
+<wire x1="-1.27" y1="-5.08" x2="-22.86" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="-22.86" y1="-5.08" x2="-22.86" y2="12.7" width="0.127" layer="21"/>
+<wire x1="-22.86" y1="12.7" x2="-1.27" y2="12.7" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="12.7" x2="-1.27" y2="-5.08" width="0.127" layer="21"/>
+<pad name="VCC" x="-16.51" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<pad name="GND" x="-15.24" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<pad name="SCE" x="-13.97" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<pad name="RST" x="-12.7" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<pad name="D/C" x="-11.43" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<pad name="DN&lt;MOSI&gt;" x="-10.16" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<pad name="SCLK" x="-8.89" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<pad name="LED" x="-7.62" y="-3.81" drill="0.7" diameter="1.016" rot="R90"/>
+<text x="-22.86" y="13.97" size="1.27" layer="25">DISPLAY</text>
+<text x="-22.86" y="-7.62" size="1.27" layer="27">NOKIA 5110</text>
+</package>
+</packages>
+<symbols>
+<symbol name="NOKIA5110">
+<wire x1="-30.48" y1="17.78" x2="-30.48" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-30.48" y1="-10.16" x2="-12.7" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="-10.16" x2="-12.7" y2="17.78" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="17.78" x2="-30.48" y2="17.78" width="0.254" layer="94"/>
+<pin name="VCC" x="-35.56" y="12.7" visible="pin" length="middle"/>
+<pin name="GND" x="-35.56" y="10.16" visible="pin" length="middle"/>
+<pin name="SCE" x="-35.56" y="7.62" visible="pin" length="middle"/>
+<pin name="RST" x="-35.56" y="5.08" visible="pin" length="middle"/>
+<pin name="D/C" x="-35.56" y="2.54" visible="pin" length="middle"/>
+<pin name="DN&lt;MOSI&gt;" x="-35.56" y="0" visible="pin" length="middle"/>
+<pin name="SCLK" x="-35.56" y="-2.54" visible="pin" length="middle"/>
+<pin name="LED" x="-35.56" y="-5.08" visible="pin" length="middle"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="NOKIA5110_1" uservalue="yes">
+<gates>
+<gate name="G$1" symbol="NOKIA5110" x="20.32" y="-2.54"/>
+</gates>
+<devices>
+<device name="" package="NOKIA_5110">
+<connects>
+<connect gate="G$1" pin="D/C" pad="D/C"/>
+<connect gate="G$1" pin="DN&lt;MOSI&gt;" pad="DN&lt;MOSI&gt;"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="LED" pad="LED"/>
+<connect gate="G$1" pin="RST" pad="RST"/>
+<connect gate="G$1" pin="SCE" pad="SCE"/>
+<connect gate="G$1" pin="SCLK" pad="SCLK"/>
+<connect gate="G$1" pin="VCC" pad="VCC"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -2489,9 +2442,10 @@ Based on the following sources:&lt;p&gt;
 <part name="SUPPLY3" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
 <part name="GND4" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND5" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="LCD1" library="lph-7366" deviceset="LPH-7366" device=""/>
 <part name="U2" library="Seeed-OPL-ic" deviceset="PMIC-CJT1117-3.3(SOT223)" device="" value="CJT1117-3.3-SOT223"/>
 <part name="GND6" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
+<part name="U$1" library="personal" deviceset="NOKIA5110_1" device=""/>
+<part name="GND7" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -2513,9 +2467,10 @@ Based on the following sources:&lt;p&gt;
 <instance part="SUPPLY3" gate="G$1" x="124.46" y="104.14" rot="R90"/>
 <instance part="GND4" gate="1" x="162.56" y="99.06"/>
 <instance part="GND5" gate="1" x="127" y="81.28"/>
-<instance part="LCD1" gate="G$1" x="180.34" y="12.7"/>
 <instance part="U2" gate="G$1" x="-7.62" y="121.92"/>
 <instance part="GND6" gate="1" x="-7.62" y="106.68"/>
+<instance part="U$1" gate="G$1" x="203.2" y="0"/>
+<instance part="GND7" gate="1" x="157.48" y="15.24" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -2597,6 +2552,12 @@ Based on the following sources:&lt;p&gt;
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="-7.62" y1="114.3" x2="-7.62" y2="109.22" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="GND"/>
+<pinref part="GND7" gate="1" pin="GND"/>
+<wire x1="167.64" y1="10.16" x2="157.48" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="10.16" x2="157.48" y2="12.7" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$3" class="0">
 <segment>
@@ -2665,6 +2626,12 @@ Based on the following sources:&lt;p&gt;
 <segment>
 <wire x1="2.54" y1="121.92" x2="10.16" y2="121.92" width="0.1524" layer="91"/>
 <label x="7.62" y="121.92" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="VCC"/>
+<wire x1="167.64" y1="12.7" x2="162.56" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="162.56" y1="12.7" x2="162.56" y2="20.32" width="0.1524" layer="91"/>
+<label x="162.56" y="17.78" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VCC_IN" class="0">
