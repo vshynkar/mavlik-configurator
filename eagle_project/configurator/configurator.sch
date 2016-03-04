@@ -1939,31 +1939,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <text x="-2.54" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
 <pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
 </symbol>
-<symbol name="VCC">
-<wire x1="0.762" y1="1.27" x2="0" y2="2.54" width="0.254" layer="94"/>
-<wire x1="0" y1="2.54" x2="-0.762" y2="1.27" width="0.254" layer="94"/>
-<text x="-1.016" y="3.556" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="VCC" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
-</symbol>
 </symbols>
 <devicesets>
 <deviceset name="GND" prefix="GND">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
 <gate name="1" symbol="DGND" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="VCC" prefix="SUPPLY">
-<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-<gates>
-<gate name="G$1" symbol="VCC" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -2375,6 +2356,20 @@ Based on the following sources:&lt;p&gt;
 <text x="-22.86" y="13.97" size="1.27" layer="25">DISPLAY</text>
 <text x="-22.86" y="-7.62" size="1.27" layer="27">NOKIA 5110</text>
 </package>
+<package name="POLOLU_U3V12F5">
+<hole x="-8.89" y="-2.54" drill="0.5"/>
+<hole x="-7.62" y="-2.54" drill="0.5"/>
+<hole x="-6.35" y="-2.54" drill="0.5"/>
+<pad name="VOUT" x="-8.89" y="-2.54" drill="0.5" diameter="1.016"/>
+<pad name="VIN" x="-6.35" y="-2.54" drill="0.5" diameter="1.016"/>
+<pad name="GND" x="-7.62" y="-2.54" drill="0.5" diameter="1.016"/>
+<wire x1="-10.16" y1="-3.81" x2="-5.08" y2="-3.81" width="0.127" layer="21"/>
+<wire x1="-5.08" y1="-3.81" x2="-5.08" y2="6.35" width="0.127" layer="21"/>
+<wire x1="-5.08" y1="6.35" x2="-10.16" y2="6.35" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="6.35" x2="-10.16" y2="-3.81" width="0.127" layer="21"/>
+<text x="-10.16" y="7.62" size="1.27" layer="25">Pololu 5V Step-Up</text>
+<text x="-10.16" y="-6.35" size="1.27" layer="27">U3V12F5</text>
+</package>
 </packages>
 <symbols>
 <symbol name="NOKIA5110">
@@ -2390,6 +2385,15 @@ Based on the following sources:&lt;p&gt;
 <pin name="DN&lt;MOSI&gt;" x="-35.56" y="0" visible="pin" length="middle"/>
 <pin name="SCLK" x="-35.56" y="-2.54" visible="pin" length="middle"/>
 <pin name="LED" x="-35.56" y="-5.08" visible="pin" length="middle"/>
+</symbol>
+<symbol name="POLOLU_U3V12F5">
+<wire x1="-10.16" y1="5.08" x2="10.16" y2="5.08" width="0.254" layer="94"/>
+<wire x1="10.16" y1="5.08" x2="10.16" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-5.08" x2="-10.16" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-5.08" x2="-10.16" y2="5.08" width="0.254" layer="94"/>
+<pin name="VIN" x="-15.24" y="0" visible="pin" length="middle"/>
+<pin name="VOUT" x="15.24" y="0" visible="pin" length="middle" rot="R180"/>
+<pin name="GND" x="0" y="-10.16" visible="pin" length="middle" rot="R90"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -2415,6 +2419,23 @@ Based on the following sources:&lt;p&gt;
 </device>
 </devices>
 </deviceset>
+<deviceset name="POLOLU_U3V12F5">
+<gates>
+<gate name="G$1" symbol="POLOLU_U3V12F5" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="POLOLU_U3V12F5">
+<connects>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="VIN" pad="VIN"/>
+<connect gate="G$1" pin="VOUT" pad="VOUT"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -2433,19 +2454,18 @@ Based on the following sources:&lt;p&gt;
 <part name="C2" library="capacitor-wima" deviceset="C" device="5/3" value="22pF"/>
 <part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="R1" library="SparkFun-Resistors" deviceset="10KOHM-1/4W-1%(PTH)" device="HORIZ" value="10k"/>
-<part name="SUPPLY1" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
 <part name="SW1" library="SparkFun-Electromechanical" deviceset="SWITCH_SPST_4_PIN" device=""/>
 <part name="GND2" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND3" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="SUPPLY2" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
 <part name="IC1" library="atmel" deviceset="AT24C*" device="P"/>
-<part name="SUPPLY3" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
 <part name="GND4" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND5" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="U2" library="Seeed-OPL-ic" deviceset="PMIC-CJT1117-3.3(SOT223)" device="" value="CJT1117-3.3-SOT223"/>
 <part name="GND6" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="U$1" library="personal" deviceset="NOKIA5110_1" device=""/>
 <part name="GND7" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
+<part name="U$2" library="personal" deviceset="POLOLU_U3V12F5" device=""/>
+<part name="GND8" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -2458,19 +2478,18 @@ Based on the following sources:&lt;p&gt;
 <instance part="C2" gate="G$1" x="35.56" y="50.8" rot="R90"/>
 <instance part="GND1" gate="1" x="25.4" y="53.34" rot="R270"/>
 <instance part="R1" gate="G$1" x="35.56" y="81.28"/>
-<instance part="SUPPLY1" gate="G$1" x="20.32" y="81.28" rot="R90"/>
 <instance part="SW1" gate="G$1" x="35.56" y="96.52"/>
 <instance part="GND2" gate="1" x="20.32" y="96.52" rot="R270"/>
 <instance part="GND3" gate="1" x="48.26" y="17.78"/>
-<instance part="SUPPLY2" gate="G$1" x="35.56" y="71.12" rot="R90"/>
 <instance part="IC1" gate="G$1" x="142.24" y="96.52"/>
-<instance part="SUPPLY3" gate="G$1" x="124.46" y="104.14" rot="R90"/>
 <instance part="GND4" gate="1" x="162.56" y="99.06"/>
 <instance part="GND5" gate="1" x="127" y="81.28"/>
 <instance part="U2" gate="G$1" x="-7.62" y="121.92"/>
 <instance part="GND6" gate="1" x="-7.62" y="106.68"/>
 <instance part="U$1" gate="G$1" x="203.2" y="0"/>
 <instance part="GND7" gate="1" x="157.48" y="15.24" rot="R180"/>
+<instance part="U$2" gate="G$1" x="76.2" y="121.92"/>
+<instance part="GND8" gate="1" x="76.2" y="104.14"/>
 </instances>
 <busses>
 </busses>
@@ -2558,6 +2577,11 @@ Based on the following sources:&lt;p&gt;
 <wire x1="167.64" y1="10.16" x2="157.48" y2="10.16" width="0.1524" layer="91"/>
 <wire x1="157.48" y1="10.16" x2="157.48" y2="12.7" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="GND"/>
+<pinref part="GND8" gate="1" pin="GND"/>
+<wire x1="76.2" y1="111.76" x2="76.2" y2="106.68" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$3" class="0">
 <segment>
@@ -2569,33 +2593,6 @@ Based on the following sources:&lt;p&gt;
 <wire x1="40.64" y1="96.52" x2="45.72" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="96.52" x2="45.72" y2="81.28" width="0.1524" layer="91"/>
 <junction x="45.72" y="81.28"/>
-</segment>
-</net>
-<net name="VCC" class="0">
-<segment>
-<pinref part="R1" gate="G$1" pin="1"/>
-<pinref part="SUPPLY1" gate="G$1" pin="VCC"/>
-<wire x1="30.48" y1="81.28" x2="20.32" y2="81.28" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="U1" gate="G$1" pin="AREF"/>
-<wire x1="50.8" y1="66.04" x2="43.18" y2="66.04" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="66.04" x2="43.18" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="AVCC"/>
-<wire x1="43.18" y1="71.12" x2="43.18" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="73.66" x2="43.18" y2="76.2" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="76.2" x2="50.8" y2="76.2" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="VCC"/>
-<wire x1="50.8" y1="73.66" x2="43.18" y2="73.66" width="0.1524" layer="91"/>
-<junction x="43.18" y="73.66"/>
-<pinref part="SUPPLY2" gate="G$1" pin="VCC"/>
-<wire x1="43.18" y1="71.12" x2="35.56" y2="71.12" width="0.1524" layer="91"/>
-<junction x="43.18" y="71.12"/>
-</segment>
-<segment>
-<pinref part="IC1" gate="G$1" pin="VCC"/>
-<pinref part="SUPPLY3" gate="G$1" pin="VCC"/>
-<wire x1="132.08" y1="104.14" x2="124.46" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="I2C_SDA" class="0">
@@ -2639,10 +2636,52 @@ Based on the following sources:&lt;p&gt;
 <wire x1="-25.4" y1="121.92" x2="-17.78" y2="121.92" width="0.1524" layer="91"/>
 <label x="-27.94" y="121.92" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="VIN"/>
+<wire x1="60.96" y1="121.92" x2="55.88" y2="121.92" width="0.1524" layer="91"/>
+<label x="55.88" y="121.92" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="VCC_5.0" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="VOUT"/>
+<wire x1="91.44" y1="121.92" x2="96.52" y2="121.92" width="0.1524" layer="91"/>
+<label x="93.98" y="121.92" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="IC1" gate="G$1" pin="VCC"/>
+<wire x1="132.08" y1="104.14" x2="127" y2="104.14" width="0.1524" layer="91"/>
+<label x="121.92" y="104.14" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R1" gate="G$1" pin="1"/>
+<wire x1="30.48" y1="81.28" x2="20.32" y2="81.28" width="0.1524" layer="91"/>
+<label x="17.78" y="81.28" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U1" gate="G$1" pin="AREF"/>
+<wire x1="50.8" y1="66.04" x2="43.18" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="66.04" x2="43.18" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="AVCC"/>
+<wire x1="43.18" y1="71.12" x2="43.18" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="73.66" x2="43.18" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="76.2" x2="50.8" y2="76.2" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="VCC"/>
+<wire x1="50.8" y1="73.66" x2="43.18" y2="73.66" width="0.1524" layer="91"/>
+<junction x="43.18" y="73.66"/>
+<wire x1="43.18" y1="71.12" x2="35.56" y2="71.12" width="0.1524" layer="91"/>
+<junction x="43.18" y="71.12"/>
+<label x="30.48" y="71.12" size="1.778" layer="95"/>
+<label x="30.48" y="71.12" size="1.778" layer="95"/>
+</segment>
 </net>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,132.08,104.14,IC1,VCC,VCC_5.0,,,"/>
+<approved hash="113,1,183.515,3.81,U$1,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>

@@ -403,6 +403,7 @@ UsedLibrary="/home/vitalii/eagle-7.5.0/lbr/custom/SparkFun-Sensors.lbr"
 UsedLibrary="/home/vitalii/eagle-7.5.0/lbr/custom/User-Submitted.lbr"
 UsedLibrary="/home/vitalii/eagle-7.5.0/lbr/custom/lph-7366.lbr"
 UsedLibrary="/home/vitalii/eagle-7.5.0/lbr/custom/pololu.lbr"
+UsedLibrary="/home/vitalii/eagle-7.5.0/lbr/custom/personal.lbr"
 
 [Win_1]
 Type="Control Panel"

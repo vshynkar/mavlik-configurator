@@ -81,6 +81,30 @@
 <text x="-22.86" y="13.97" size="1.27" layer="25">DISPLAY</text>
 <text x="-22.86" y="-7.62" size="1.27" layer="27">NOKIA 5110</text>
 </package>
+<package name="NOKIA_5110_2">
+<hole x="-11.43" y="-2.54" drill="0.6"/>
+<hole x="-10.16" y="-2.54" drill="0.6"/>
+<hole x="-8.89" y="-2.54" drill="0.6"/>
+<hole x="-7.62" y="-2.54" drill="0.6"/>
+<hole x="-6.35" y="-2.54" drill="0.6"/>
+<hole x="-5.08" y="-2.54" drill="0.6"/>
+<hole x="-3.81" y="-2.54" drill="0.6"/>
+<hole x="-2.54" y="-2.54" drill="0.6"/>
+<pad name="VCC" x="-11.43" y="-2.54" drill="0.7" diameter="1.016"/>
+<pad name="GND" x="-10.16" y="-2.54" drill="0.7" diameter="1.016"/>
+<pad name="SCE" x="-8.89" y="-2.54" drill="0.7" diameter="1.016"/>
+<pad name="RST" x="-7.62" y="-2.54" drill="0.7" diameter="1.016"/>
+<pad name="DN&lt;MOSI&gt;" x="-5.08" y="-2.54" drill="0.7" diameter="1.016"/>
+<pad name="D/C" x="-6.35" y="-2.54" drill="0.7" diameter="1.016"/>
+<pad name="SCLK" x="-3.81" y="-2.54" drill="0.7" diameter="1.016"/>
+<pad name="LED" x="-2.54" y="-2.54" drill="0.7" diameter="1.016"/>
+<wire x1="-13.97" y1="0" x2="-13.97" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="-13.97" y1="-5.08" x2="0" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="0" y1="-5.08" x2="0" y2="0" width="0.127" layer="21"/>
+<wire x1="0" y1="0" x2="-13.97" y2="0" width="0.127" layer="21"/>
+<text x="-13.97" y="1.27" size="1.27" layer="25">DISPLAY</text>
+<text x="-13.97" y="-7.62" size="1.27" layer="27">NOKIA 5110</text>
+</package>
 </packages>
 <symbols>
 <symbol name="NOKIA5110">
@@ -105,6 +129,28 @@
 </gates>
 <devices>
 <device name="" package="NOKIA_5110">
+<connects>
+<connect gate="G$1" pin="D/C" pad="D/C"/>
+<connect gate="G$1" pin="DN&lt;MOSI&gt;" pad="DN&lt;MOSI&gt;"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="LED" pad="LED"/>
+<connect gate="G$1" pin="RST" pad="RST"/>
+<connect gate="G$1" pin="SCE" pad="SCE"/>
+<connect gate="G$1" pin="SCLK" pad="SCLK"/>
+<connect gate="G$1" pin="VCC" pad="VCC"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="NOKIA_5110_2" uservalue="yes">
+<gates>
+<gate name="G$1" symbol="NOKIA5110" x="20.32" y="-5.08"/>
+</gates>
+<devices>
+<device name="" package="NOKIA_5110_2">
 <connects>
 <connect gate="G$1" pin="D/C" pad="D/C"/>
 <connect gate="G$1" pin="DN&lt;MOSI&gt;" pad="DN&lt;MOSI&gt;"/>
